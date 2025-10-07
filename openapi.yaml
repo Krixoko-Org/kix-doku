@@ -61,6 +61,18 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Ticket'
+              example:
+                Ticket:
+                  - TicketID: "4711"
+                    TicketNumber: "2014070110123456"
+                    Title: "REST-API Test"
+                    Queue: "Service"
+                    State: "new"
+                    Priority: "3 normal"
+                    CustomerUser: "test"
+                    Owner: "root@localhost"
+                    Created: "2014-07-01 12:00:00"
+                    Changed: "2014-07-01 12:00:00"
         '401':
           description: Unauthorized.
         '404':
@@ -78,6 +90,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TicketCreate'
+            example:
+              Title: "New ticket via REST"
+              Queue: "Service"
+              CustomerUser: "test"
+              Article:
+                Subject: "The first article"
+                Body: "The body of the first article."
+                MimeType: "text/plain"
+                SenderType: "customer"
+              DynamicField:
+                - Name: "DynamicField_Title"
+                  Value: "Mr."
+                - Name: "DynamicField_Firstname"
+                  Value: "John"
       responses:
         '201':
           description: The ticket was successfully created.
@@ -90,6 +116,9 @@ paths:
                     type: string
                   TicketNumber:
                     type: string
+              example:
+                TicketID: "4712"
+                TicketNumber: "2014070110123457"
         '400':
           description: Bad Request.
         '401':
@@ -115,6 +144,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TicketUpdate'
+            example:
+              Title: "Ticket title updated"
+              Queue: "Service"
+              State: "open"
+              Owner: "other.agent@localhost"
+              Priority: "4 high"
       responses:
         '200':
           description: The ticket was successfully updated.
@@ -122,6 +157,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Ticket'
+              example:
+                TicketID: "4712"
+                TicketNumber: "2014070110123457"
+                Title: "Ticket title updated"
+                Queue: "Service"
+                State: "open"
+                Priority: "4 high"
+                CustomerUser: "test"
+                Owner: "other.agent@localhost"
+                Created: "2014-07-01 12:01:00"
+                Changed: "2014-07-01 12:05:00"
         '400':
           description: Bad Request.
         '401':
@@ -147,6 +193,20 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Contact'
+              example:
+                Contact:
+                  - ContactID: "4711"
+                    FirstName: "John"
+                    LastName: "Doe"
+                    Email: "john.doe@example.com"
+                    Phone: "+1 123-456-7890"
+                    OrganisationID: "5"
+                  - ContactID: "4712"
+                    FirstName: "Jane"
+                    LastName: "Doe"
+                    Email: "jane.doe@example.com"
+                    Phone: "+1 123-456-7891"
+                    OrganisationID: "5"
         '401':
           description: Unauthorized.
     post:
@@ -162,6 +222,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactCreate'
+            example:
+              FirstName: "John"
+              LastName: "Doe"
+              Email: "john.doe@example.com"
+              Phone: "+1 123-456-7890"
+              OrganisationID: "5"
       responses:
         '201':
           description: The contact was successfully created.
@@ -190,6 +256,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Contact'
+              example:
+                ContactID: "4711"
+                FirstName: "John"
+                LastName: "Doe"
+                Email: "john.doe@example.com"
+                Phone: "+1 123-456-7890"
+                OrganisationID: "5"
         '401':
           description: Unauthorized.
         '404':
@@ -214,6 +287,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactUpdate'
+            example:
+              LastName: "Dorian"
+              Email: "jane.dorian@example.com"
       responses:
         '200':
           description: The contact was successfully updated.
@@ -269,6 +345,18 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Ticket'
+              example:
+                Ticket:
+                  - TicketID: "4711"
+                    TicketNumber: "2014070110123456"
+                    Title: "REST-API Test"
+                    Queue: "Service"
+                    State: "new"
+                    Priority: "3 normal"
+                    CustomerUser: "test"
+                    Owner: "root@localhost"
+                    Created: "2014-07-01 12:00:00"
+                    Changed: "2014-07-01 12:00:00"
         '401':
           description: Unauthorized.
         '404':
@@ -292,6 +380,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Organisation'
+              example:
+                Organisation:
+                  - OrganisationID: "5"
+                    Name: "ExampleCorp"
+                    Address: "123 Example St"
+                    Website: "www.example.com"
         '401':
           description: Unauthorized.
     post:
@@ -307,6 +401,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganisationCreate'
+            example:
+              Name: "NewExampleCorp"
+              Address: "456 New St"
+              Website: "www.newexample.com"
       responses:
         '201':
           description: The organisation was successfully created.
@@ -335,6 +433,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Organisation'
+              example:
+                OrganisationID: "5"
+                Name: "ExampleCorp"
+                Address: "123 Example St"
+                Website: "www.example.com"
         '401':
           description: Unauthorized.
         '404':
@@ -359,6 +462,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganisationUpdate'
+            example:
+              Name: "UpdatedExampleCorp"
+              Website: "www.updatedexample.com"
       responses:
         '200':
           description: The organisation was successfully updated.
@@ -414,6 +520,20 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Contact'
+              example:
+                Contact:
+                  - ContactID: "4711"
+                    FirstName: "John"
+                    LastName: "Doe"
+                    Email: "john.doe@example.com"
+                    Phone: "+1 123-456-7890"
+                    OrganisationID: "5"
+                  - ContactID: "4712"
+                    FirstName: "Jane"
+                    LastName: "Doe"
+                    Email: "jane.doe@example.com"
+                    Phone: "+1 123-456-7891"
+                    OrganisationID: "5"
         '401':
           description: Unauthorized.
         '404':
@@ -444,6 +564,18 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Ticket'
+              example:
+                Ticket:
+                  - TicketID: "4711"
+                    TicketNumber: "2014070110123456"
+                    Title: "REST-API Test"
+                    Queue: "Service"
+                    State: "new"
+                    Priority: "3 normal"
+                    CustomerUser: "test"
+                    Owner: "root@localhost"
+                    Created: "2014-07-01 12:00:00"
+                    Changed: "2014-07-01 12:00:00"
         '401':
           description: Unauthorized.
         '404':
@@ -467,6 +599,13 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/FAQArticle'
+              example:
+                FAQArticle:
+                  - FAQArticleID: "1"
+                    Title: "How to reset password"
+                    CategoryID: "2"
+                    Content: "Go to settings and click 'Reset Password'."
+                    Keywords: "password, reset"
         '401':
           description: Unauthorized.
     post:
@@ -482,6 +621,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FAQArticleCreate'
+            example:
+              Title: "How to create a ticket"
+              CategoryID: "1"
+              Content: "To create a ticket, go to the 'Tickets' section and click 'New Ticket'."
+              Keywords: "ticket, create"
       responses:
         '201':
           description: The FAQ article was successfully created.
@@ -510,6 +654,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FAQArticle'
+              example:
+                FAQArticleID: "1"
+                Title: "How to reset password"
+                CategoryID: "2"
+                Content: "Go to settings and click 'Reset Password'."
+                Keywords: "password, reset"
         '401':
           description: Unauthorized.
         '404':
@@ -534,6 +684,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FAQArticleUpdate'
+            example:
+              Title: "How to reset your password"
+              Keywords: "password, reset, account"
       responses:
         '200':
           description: The FAQ article was successfully updated.
@@ -582,6 +735,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/User'
+              example:
+                User:
+                  - UserID: "1"
+                    Login: "john.doe"
+                    FirstName: "John"
+                    LastName: "Doe"
+                    Email: "john.doe@example.com"
+                    IsActive: true
         '401':
           description: Unauthorized.
     post:
@@ -597,6 +758,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserCreate'
+            example:
+              Login: "jane.doe"
+              FirstName: "Jane"
+              LastName: "Doe"
+              Email: "jane.doe@example.com"
+              IsActive: true
       responses:
         '201':
           description: The user was successfully created.
@@ -625,6 +792,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              example:
+                UserID: "1"
+                Login: "john.doe"
+                FirstName: "John"
+                LastName: "Doe"
+                Email: "john.doe@example.com"
+                IsActive: true
         '401':
           description: Unauthorized.
         '404':
@@ -649,6 +823,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserUpdate'
+            example:
+              FirstName: "Johnathan"
+              IsActive: false
       responses:
         '200':
           description: The user was successfully updated.
@@ -677,6 +854,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/ConfigItem'
+              example:
+                ConfigItem:
+                  - ConfigItemID: "101"
+                    Name: "Server-01"
+                    ClassID: "3"
+                    DeploymentState: "Production"
         '401':
           description: Unauthorized.
     post:
@@ -692,6 +875,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ConfigItemCreate'
+            example:
+              Name: "Server-02"
+              ClassID: "3"
+              DeploymentState: "Testing"
       responses:
         '201':
           description: The configuration item was successfully created.
@@ -720,6 +907,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConfigItem'
+              example:
+                ConfigItemID: "101"
+                Name: "Server-01"
+                ClassID: "3"
+                DeploymentState: "Production"
         '401':
           description: Unauthorized.
         '404':
@@ -744,6 +936,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ConfigItemUpdate'
+            example:
+              Name: "Server-01-Renamed"
+              DeploymentState: "Archived"
       responses:
         '200':
           description: The configuration item was successfully updated.
@@ -792,6 +987,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Queue'
+              example:
+                Queue:
+                  - QueueID: "1"
+                    Name: "Service"
+                    GroupID: "1"
+                    SystemAddressID: "1"
         '401':
           description: Unauthorized.
     post:
@@ -807,6 +1008,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/QueueCreate'
+            example:
+              Name: "Sales"
+              GroupID: "2"
+              SystemAddressID: "2"
       responses:
         '201':
           description: The queue was successfully created.
@@ -835,6 +1040,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Queue'
+              example:
+                QueueID: "1"
+                Name: "Service"
+                GroupID: "1"
+                SystemAddressID: "1"
         '401':
           description: Unauthorized.
         '404':
@@ -859,6 +1069,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/QueueUpdate'
+            example:
+              Name: "Support"
       responses:
         '200':
           description: The queue was successfully updated.
@@ -907,6 +1119,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/TicketState'
+              example:
+                TicketState:
+                  - StateID: "1"
+                    Name: "new"
+                    TypeID: "1"
+                  - StateID: "2"
+                    Name: "open"
+                    TypeID: "1"
         '401':
           description: Unauthorized.
     post:
@@ -922,6 +1142,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TicketStateCreate'
+            example:
+              Name: "closed"
+              TypeID: "2"
       responses:
         '201':
           description: The state was successfully created.
@@ -950,6 +1173,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TicketState'
+              example:
+                StateID: "1"
+                Name: "new"
+                TypeID: "1"
         '401':
           description: Unauthorized.
         '404':
@@ -974,6 +1201,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TicketStateUpdate'
+            example:
+              Name: "pending"
       responses:
         '200':
           description: The state was successfully updated.
@@ -1022,6 +1251,14 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Priority'
+              example:
+                Priority:
+                  - PriorityID: "1"
+                    Name: "1 low"
+                  - PriorityID: "3"
+                    Name: "3 normal"
+                  - PriorityID: "5"
+                    Name: "5 high"
         '401':
           description: Unauthorized.
     post:
@@ -1037,6 +1274,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PriorityCreate'
+            example:
+              Name: "2 medium"
       responses:
         '201':
           description: The priority was successfully created.
@@ -1065,6 +1304,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Priority'
+              example:
+                PriorityID: "3"
+                Name: "3 normal"
         '401':
           description: Unauthorized.
         '404':
@@ -1089,6 +1331,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PriorityUpdate'
+            example:
+              Name: "4 high"
       responses:
         '200':
           description: The priority was successfully updated.
@@ -1137,6 +1381,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/TicketType'
+              example:
+                TicketType:
+                  - TypeID: "1"
+                    Name: "Incident"
+                  - TypeID: "2"
+                    Name: "Problem"
         '401':
           description: Unauthorized.
     post:
@@ -1152,6 +1402,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TicketTypeCreate'
+            example:
+              Name: "Change"
       responses:
         '201':
           description: The type was successfully created.
@@ -1180,6 +1432,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TicketType'
+              example:
+                TypeID: "1"
+                Name: "Incident"
         '401':
           description: Unauthorized.
         '404':
@@ -1204,6 +1459,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TicketTypeUpdate'
+            example:
+              Name: "Service Request"
       responses:
         '200':
           description: The type was successfully updated.
@@ -1252,6 +1509,8 @@ paths:
                   Authenticated:
                     type: boolean
                     description: "True if the user is authenticated, otherwise false."
+              example:
+                Authenticated: true
         '401':
           description: Not authenticated.
     post:
@@ -1268,6 +1527,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Credentials'
+            example:
+              User: "testuser"
+              Password: "password"
+              OTP: "123456"
       responses:
         '201':
           description: Session successfully created.
@@ -1279,6 +1542,8 @@ paths:
                   Token:
                     type: string
                     description: The authentication token for the session.
+              example:
+                Token: "ab...yz"
         '401':
           description: Invalid credentials.
   /session:
@@ -1295,6 +1560,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SessionInfo'
+              example:
+                UserID: "1"
+                UserLogin: "testuser"
+                UserFirstname: "Test"
+                UserLastname: "User"
+                SessionID: "some_session_id"
+                ChallengeToken: "some_challenge_token"
         '401':
           description: Unauthorized.
     delete:
@@ -1327,6 +1599,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Role'
+              example:
+                Role:
+                  - RoleID: "1"
+                    Name: "Admin"
+                  - RoleID: "2"
+                    Name: "Agent"
         '401':
           description: Unauthorized.
     post:
@@ -1342,6 +1620,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RoleCreate'
+            example:
+              Name: "Customer"
       responses:
         '201':
           description: The role was successfully created.
@@ -1370,6 +1650,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Role'
+              example:
+                RoleID: "1"
+                Name: "Admin"
         '401':
           description: Unauthorized.
         '404':
@@ -1394,6 +1677,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RoleUpdate'
+            example:
+              Name: "Administrator"
       responses:
         '200':
           description: The role was successfully updated.
@@ -1449,6 +1734,11 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Permission'
+              example:
+                Permission:
+                  - PermissionID: "1"
+                    PermissionKey: "rw"
+                    PermissionValue: "ticket"
         '401':
           description: Unauthorized.
         '404':
@@ -1473,6 +1763,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PermissionCreate'
+            example:
+              PermissionKey: "ro"
+              PermissionValue: "faq"
       responses:
         '201':
           description: The permission was successfully added.
@@ -1509,6 +1802,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Permission'
+              example:
+                PermissionID: "1"
+                PermissionKey: "rw"
+                PermissionValue: "ticket"
         '401':
           description: Unauthorized.
         '404':
@@ -1539,6 +1836,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PermissionUpdate'
+            example:
+              PermissionValue: "ticket.note"
       responses:
         '200':
           description: The permission was successfully updated.
@@ -1600,6 +1899,10 @@ paths:
                     type: array
                     items:
                       type: string
+              example:
+                UserID:
+                  - "1"
+                  - "2"
         '401':
           description: Unauthorized.
         '404':
@@ -1630,6 +1933,8 @@ paths:
                 UserID:
                   type: string
                   description: The unique identifier of the user to add.
+            example:
+              UserID: "3"
       responses:
         '201':
           description: The user was successfully added to the role.
@@ -1685,6 +1990,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/TextModule'
+              example:
+                TextModule:
+                  - TextModuleID: "1"
+                    Name: "Welcome Email"
+                    Content: "Hello, welcome to our service!"
+                    CategoryID: "3"
         '401':
           description: Unauthorized.
     post:
@@ -1700,6 +2011,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TextModuleCreate'
+            example:
+              Name: "Password Reset"
+              Content: "Your password has been reset."
+              CategoryID: "2"
       responses:
         '201':
           description: The text module was successfully created.
@@ -1728,6 +2043,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TextModule'
+              example:
+                TextModuleID: "1"
+                Name: "Welcome Email"
+                Content: "Hello, welcome to our service!"
+                CategoryID: "3"
         '401':
           description: Unauthorized.
         '404':
@@ -1752,6 +2072,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TextModuleUpdate'
+            example:
+              Content: "Hello and welcome to our amazing service!"
       responses:
         '200':
           description: The text module was successfully updated.
