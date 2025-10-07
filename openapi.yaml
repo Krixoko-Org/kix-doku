@@ -4228,13 +4228,6 @@ components:
           type: string
         SenderType:
           type: string
-    DynamicField:
-      type: object
-      properties:
-        Name:
-          type: string
-        Value:
-          type: string
     Contact:
       type: object
       properties:
