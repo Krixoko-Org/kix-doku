@@ -1,0 +1,5160 @@
+openapi: 3.0.0
+info:
+  title: KIX-REST API
+  description: Standard API documentation for the KIX-REST API.
+  version: v1
+servers:
+  - url: https://{tenant}.kixdesk.com/kix-rest
+    description: The main production server.
+    variables:
+      tenant:
+        default: demo
+        description: Your personal KIX instance name.
+paths:
+  /tickets:
+    get:
+      summary: Search for tickets
+      description: Retrieves a list of tickets based on specified search criteria.
+      operationId: TicketSearch
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketNumber
+          in: query
+          description: The ticket number to search for.
+          schema:
+            type: string
+        - name: Title
+          in: query
+          description: Search for tickets with a specific title (wildcard search is possible using '*').
+          schema:
+            type: string
+        - name: Queue
+          in: query
+          description: The name of the queue to search in.
+          schema:
+            type: string
+        - name: State
+          in: query
+          description: The state of the tickets to search for.
+          schema:
+            type: string
+        - name: Priority
+          in: query
+          description: The priority of the tickets.
+          schema:
+            type: string
+        - name: CustomerUser
+          in: query
+          description: The login name of the customer user associated with the ticket.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of tickets was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Ticket:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Create a new ticket
+      description: Creates a new ticket.
+      operationId: TicketCreate
+      tags:
+        - Tickets
+      requestBody:
+        description: The ticket object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketCreate'
+      responses:
+        '201':
+          description: The ticket was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  TicketID:
+                    type: string
+                  TicketNumber:
+                    type: string
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /tickets/{TicketID}:
+    patch:
+      summary: Update a ticket
+      description: Updates an existing ticket's attributes.
+      operationId: TicketUpdate
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The unique identifier of the ticket to update.
+          schema:
+            type: string
+      requestBody:
+        description: The ticket attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketUpdate'
+      responses:
+        '200':
+          description: The ticket was successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /contacts:
+    get:
+      summary: Search for contacts
+      description: Retrieves a list of contacts.
+      operationId: ContactSearch
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: A list of contacts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Contact:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new contact
+      description: Creates a new contact.
+      operationId: ContactCreate
+      tags:
+        - Contacts
+      requestBody:
+        description: The contact object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactCreate'
+      responses:
+        '201':
+          description: The contact was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /contacts/{ContactID}:
+    get:
+      summary: Get a specific contact
+      description: Retrieves the details of a specific contact.
+      operationId: ContactGet
+      tags:
+        - Contacts
+      parameters:
+        - name: ContactID
+          in: path
+          required: true
+          description: The unique identifier of the contact.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Contact details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a contact
+      description: Updates an existing contact.
+      operationId: ContactUpdate
+      tags:
+        - Contacts
+      parameters:
+        - name: ContactID
+          in: path
+          required: true
+          description: The unique identifier of the contact to update.
+          schema:
+            type: string
+      requestBody:
+        description: The contact attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactUpdate'
+      responses:
+        '200':
+          description: The contact was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a contact
+      description: Deletes a specific contact.
+      operationId: ContactDelete
+      tags:
+        - Contacts
+      parameters:
+        - name: ContactID
+          in: path
+          required: true
+          description: The unique identifier of the contact to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The contact was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /contacts/{ContactID}/tickets:
+    get:
+      summary: Get tickets for a contact
+      description: Retrieves tickets associated with a specific contact.
+      operationId: ContactTicketSearch
+      tags:
+        - Contacts
+      parameters:
+        - name: ContactID
+          in: path
+          required: true
+          description: The unique identifier of the contact.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of tickets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Ticket:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /organisations:
+    get:
+      summary: Search for organisations
+      description: Retrieves a list of organisations.
+      operationId: OrganisationSearch
+      tags:
+        - Organisations
+      responses:
+        '200':
+          description: A list of organisations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organisation:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organisation'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new organisation
+      description: Creates a new organisation.
+      operationId: OrganisationCreate
+      tags:
+        - Organisations
+      requestBody:
+        description: The organisation object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganisationCreate'
+      responses:
+        '201':
+          description: The organisation was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /organisations/{OrganisationID}:
+    get:
+      summary: Get a specific organisation
+      description: Retrieves the details of a specific organisation.
+      operationId: OrganisationGet
+      tags:
+        - Organisations
+      parameters:
+        - name: OrganisationID
+          in: path
+          required: true
+          description: The unique identifier of the organisation.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Organisation details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organisation'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an organisation
+      description: Updates an existing organisation.
+      operationId: OrganisationUpdate
+      tags:
+        - Organisations
+      parameters:
+        - name: OrganisationID
+          in: path
+          required: true
+          description: The unique identifier of the organisation to update.
+          schema:
+            type: string
+      requestBody:
+        description: The organisation attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganisationUpdate'
+      responses:
+        '200':
+          description: The organisation was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an organisation
+      description: Deletes a specific organisation.
+      operationId: OrganisationDelete
+      tags:
+        - Organisations
+      parameters:
+        - name: OrganisationID
+          in: path
+          required: true
+          description: The unique identifier of the organisation to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The organisation was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /organisations/{OrganisationID}/contacts:
+    get:
+      summary: Get contacts for an organisation
+      description: Retrieves contacts associated with a specific organisation.
+      operationId: OrganisationContactSearch
+      tags:
+        - Organisations
+      parameters:
+        - name: OrganisationID
+          in: path
+          required: true
+          description: The unique identifier of the organisation.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of contacts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Contact:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Contact'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /organisations/{OrganisationID}/tickets:
+    get:
+      summary: Get tickets for an organisation
+      description: Retrieves tickets associated with a specific organisation.
+      operationId: OrganisationTicketSearch
+      tags:
+        - Organisations
+      parameters:
+        - name: OrganisationID
+          in: path
+          required: true
+          description: The unique identifier of the organisation.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of tickets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Ticket:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles:
+    get:
+      summary: Search for FAQ articles
+      description: Retrieves a list of FAQ articles.
+      operationId: FAQArticleSearch
+      tags:
+        - FAQ
+      responses:
+        '200':
+          description: A list of FAQ articles.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  FAQArticle:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FAQArticle'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new FAQ article
+      description: Creates a new FAQ article.
+      operationId: FAQArticleCreate
+      tags:
+        - FAQ
+      requestBody:
+        description: The FAQ article object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FAQArticleCreate'
+      responses:
+        '201':
+          description: The FAQ article was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /faq/articles/{FAQArticleID}:
+    get:
+      summary: Get a specific FAQ article
+      description: Retrieves the details of a specific FAQ article.
+      operationId: FAQArticleGet
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The unique identifier of the FAQ article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: FAQ article details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FAQArticle'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an FAQ article
+      description: Updates an existing FAQ article.
+      operationId: FAQArticleUpdate
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The unique identifier of the FAQ article to update.
+          schema:
+            type: string
+      requestBody:
+        description: The FAQ article attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FAQArticleUpdate'
+      responses:
+        '200':
+          description: The FAQ article was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an FAQ article
+      description: Deletes a specific FAQ article.
+      operationId: FAQArticleDelete
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The unique identifier of the FAQ article to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The FAQ article was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/users:
+    get:
+      summary: Search for users
+      description: Retrieves a list of users.
+      operationId: UserSearch
+      tags:
+        - System - Users
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new user
+      description: Creates a new user.
+      operationId: UserCreate
+      tags:
+        - System - Users
+      requestBody:
+        description: The user object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: The user was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/users/{UserID}:
+    get:
+      summary: Get a specific user
+      description: Retrieves the details of a specific user.
+      operationId: UserGet
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The unique identifier of the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a user
+      description: Updates an existing user.
+      operationId: UserUpdate
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The unique identifier of the user to update.
+          schema:
+            type: string
+      requestBody:
+        description: The user attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: The user was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems:
+    get:
+      summary: Search for CMDB configuration items
+      description: Retrieves a list of configuration items.
+      operationId: ConfigItemSearch
+      tags:
+        - CMDB
+      responses:
+        '200':
+          description: A list of configuration items.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ConfigItem:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConfigItem'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new configuration item
+      description: Creates a new configuration item.
+      operationId: ConfigItemCreate
+      tags:
+        - CMDB
+      requestBody:
+        description: The configuration item object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigItemCreate'
+      responses:
+        '201':
+          description: The configuration item was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /cmdb/configitems/{ConfigItemID}:
+    get:
+      summary: Get a specific configuration item
+      description: Retrieves the details of a specific configuration item.
+      operationId: ConfigItemGet
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The unique identifier of the configuration item.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Configuration item details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigItem'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a configuration item
+      description: Updates an existing configuration item.
+      operationId: ConfigItemUpdate
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The unique identifier of the configuration item to update.
+          schema:
+            type: string
+      requestBody:
+        description: The configuration item attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigItemUpdate'
+      responses:
+        '200':
+          description: The configuration item was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a configuration item
+      description: Deletes a specific configuration item.
+      operationId: ConfigItemDelete
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The unique identifier of the configuration item to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The configuration item was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/ticket/queues:
+    get:
+      summary: Search for ticket queues
+      description: Retrieves a list of ticket queues.
+      operationId: QueueSearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of queues.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Queue:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Queue'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new ticket queue
+      description: Creates a new ticket queue.
+      operationId: QueueCreate
+      tags:
+        - System - Ticket Settings
+      requestBody:
+        description: The queue object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueCreate'
+      responses:
+        '201':
+          description: The queue was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/ticket/queues/{QueueID}:
+    get:
+      summary: Get a specific ticket queue
+      description: Retrieves the details of a specific ticket queue.
+      operationId: QueueGet
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: QueueID
+          in: path
+          required: true
+          description: The unique identifier of the queue.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Queue details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Queue'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a ticket queue
+      description: Updates an existing ticket queue.
+      operationId: QueueUpdate
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: QueueID
+          in: path
+          required: true
+          description: The unique identifier of the queue to update.
+          schema:
+            type: string
+      requestBody:
+        description: The queue attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueueUpdate'
+      responses:
+        '200':
+          description: The queue was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a ticket queue
+      description: Deletes a specific ticket queue.
+      operationId: QueueDelete
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: QueueID
+          in: path
+          required: true
+          description: The unique identifier of the queue to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The queue was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/ticket/states:
+    get:
+      summary: Search for ticket states
+      description: Retrieves a list of ticket states.
+      operationId: TicketStateSearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of states.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  TicketState:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TicketState'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new ticket state
+      description: Creates a new ticket state.
+      operationId: TicketStateCreate
+      tags:
+        - System - Ticket Settings
+      requestBody:
+        description: The state object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketStateCreate'
+      responses:
+        '201':
+          description: The state was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/ticket/states/{StateID}:
+    get:
+      summary: Get a specific ticket state
+      description: Retrieves the details of a specific ticket state.
+      operationId: TicketStateGet
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: StateID
+          in: path
+          required: true
+          description: The unique identifier of the state.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: State details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketState'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a ticket state
+      description: Updates an existing ticket state.
+      operationId: TicketStateUpdate
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: StateID
+          in: path
+          required: true
+          description: The unique identifier of the state to update.
+          schema:
+            type: string
+      requestBody:
+        description: The state attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketStateUpdate'
+      responses:
+        '200':
+          description: The state was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a ticket state
+      description: Deletes a specific ticket state.
+      operationId: TicketStateDelete
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: StateID
+          in: path
+          required: true
+          description: The unique identifier of the state to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The state was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/ticket/priorities:
+    get:
+      summary: Search for ticket priorities
+      description: Retrieves a list of ticket priorities.
+      operationId: PrioritySearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of priorities.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Priority:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Priority'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new ticket priority
+      description: Creates a new ticket priority.
+      operationId: PriorityCreate
+      tags:
+        - System - Ticket Settings
+      requestBody:
+        description: The priority object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriorityCreate'
+      responses:
+        '201':
+          description: The priority was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/ticket/priorities/{PriorityID}:
+    get:
+      summary: Get a specific ticket priority
+      description: Retrieves the details of a specific ticket priority.
+      operationId: PriorityGet
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: PriorityID
+          in: path
+          required: true
+          description: The unique identifier of the priority.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Priority details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Priority'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a ticket priority
+      description: Updates an existing ticket priority.
+      operationId: PriorityUpdate
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: PriorityID
+          in: path
+          required: true
+          description: The unique identifier of the priority to update.
+          schema:
+            type: string
+      requestBody:
+        description: The priority attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriorityUpdate'
+      responses:
+        '200':
+          description: The priority was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a ticket priority
+      description: Deletes a specific ticket priority.
+      operationId: PriorityDelete
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: PriorityID
+          in: path
+          required: true
+          description: The unique identifier of the priority to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The priority was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/ticket/types:
+    get:
+      summary: Search for ticket types
+      description: Retrieves a list of ticket types.
+      operationId: TicketTypeSearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of types.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  TicketType:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TicketType'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new ticket type
+      description: Creates a new ticket type.
+      operationId: TicketTypeCreate
+      tags:
+        - System - Ticket Settings
+      requestBody:
+        description: The type object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketTypeCreate'
+      responses:
+        '201':
+          description: The type was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/ticket/types/{TypeID}:
+    get:
+      summary: Get a specific ticket type
+      description: Retrieves the details of a specific ticket type.
+      operationId: TicketTypeGet
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: TypeID
+          in: path
+          required: true
+          description: The unique identifier of the type.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Type details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketType'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a ticket type
+      description: Updates an existing ticket type.
+      operationId: TicketTypeUpdate
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: TypeID
+          in: path
+          required: true
+          description: The unique identifier of the type to update.
+          schema:
+            type: string
+      requestBody:
+        description: The type attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketTypeUpdate'
+      responses:
+        '200':
+          description: The type was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a ticket type
+      description: Deletes a specific ticket type.
+      operationId: TicketTypeDelete
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: TypeID
+          in: path
+          required: true
+          description: The unique identifier of the type to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The type was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /auth:
+    get:
+      summary: Get Authentication Info
+      description: Retrieves information about the current authentication status. Can be used to check if a session token is still valid.
+      operationId: AuthGet
+      tags:
+        - Session
+      security: []
+      responses:
+        '200':
+          description: Authentication status retrieved. Indicates if the session is active.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Authenticated:
+                    type: boolean
+                    description: "True if the user is authenticated, otherwise false."
+        '401':
+          description: Not authenticated.
+    post:
+      summary: Create a new session
+      description: Authenticates a user and creates a new session, returning an authentication token. This is the primary endpoint for logging in.
+      operationId: SessionCreate
+      tags:
+        - Session
+      security: []
+      requestBody:
+        description: User credentials for authentication.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        '201':
+          description: Session successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Token:
+                    type: string
+                    description: The authentication token for the session.
+        '401':
+          description: Invalid credentials.
+  /session:
+    get:
+      summary: Get current session information
+      description: Retrieves detailed information about the current user's session.
+      operationId: SessionGet
+      tags:
+        - Session
+      responses:
+        '200':
+          description: Session information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionInfo'
+        '401':
+          description: Unauthorized.
+    delete:
+      summary: Delete current session (Logout)
+      description: Logs the current user out by invalidating their session token.
+      operationId: SessionDelete
+      tags:
+        - Session
+      responses:
+        '204':
+          description: Session deleted successfully.
+        '401':
+          description: Unauthorized.
+  /system/roles:
+    get:
+      summary: Search for roles
+      description: Retrieves a list of roles.
+      operationId: RoleSearch
+      tags:
+        - System - Roles & Permissions
+      responses:
+        '200':
+          description: A list of roles.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Role:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Role'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new role
+      description: Creates a new role.
+      operationId: RoleCreate
+      tags:
+        - System - Roles & Permissions
+      requestBody:
+        description: The role object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleCreate'
+      responses:
+        '201':
+          description: The role was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/roles/{RoleID}:
+    get:
+      summary: Get a specific role
+      description: Retrieves the details of a specific role.
+      operationId: RoleGet
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Role details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a role
+      description: Updates an existing role.
+      operationId: RoleUpdate
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role to update.
+          schema:
+            type: string
+      requestBody:
+        description: The role attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleUpdate'
+      responses:
+        '200':
+          description: The role was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a role
+      description: Deletes a specific role.
+      operationId: RoleDelete
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The role was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/roles/{RoleID}/permissions:
+    get:
+      summary: Search for permissions in a role
+      description: Retrieves a list of permissions for a specific role.
+      operationId: PermissionSearch
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of permissions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Permission:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Permission'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add a permission to a role
+      description: Adds a new permission to a specific role.
+      operationId: PermissionCreate
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+      requestBody:
+        description: The permission object to be added.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionCreate'
+      responses:
+        '201':
+          description: The permission was successfully added.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/roles/{RoleID}/permissions/{PermissionID}:
+    get:
+      summary: Get a specific permission
+      description: Retrieves the details of a specific permission within a role.
+      operationId: PermissionGet
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+        - name: PermissionID
+          in: path
+          required: true
+          description: The unique identifier of the permission.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Permission details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permission'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a permission
+      description: Updates an existing permission within a role.
+      operationId: PermissionUpdate
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+        - name: PermissionID
+          in: path
+          required: true
+          description: The unique identifier of the permission to update.
+          schema:
+            type: string
+      requestBody:
+        description: The permission attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionUpdate'
+      responses:
+        '200':
+          description: The permission was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a permission
+      description: Deletes a specific permission from a role.
+      operationId: PermissionDelete
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+        - name: PermissionID
+          in: path
+          required: true
+          description: The unique identifier of the permission to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The permission was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/roles/{RoleID}/userids:
+    get:
+      summary: Get user IDs for a role
+      description: Retrieves a list of user IDs associated with a specific role.
+      operationId: RoleUserIDSearch
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of user IDs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  UserID:
+                    type: array
+                    items:
+                      type: string
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add a user to a role
+      description: Adds a user to a specific role by their user ID.
+      operationId: RoleUserIDCreate
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+      requestBody:
+        description: The user ID to be added to the role.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - UserID
+              properties:
+                UserID:
+                  type: string
+                  description: The unique identifier of the user to add.
+      responses:
+        '201':
+          description: The user was successfully added to the role.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/roles/{RoleID}/userids/{UserID}:
+    delete:
+      summary: Remove a user from a role
+      description: Removes a specific user from a role.
+      operationId: RoleUserIDDelete
+      tags:
+        - System - Roles & Permissions
+      parameters:
+        - name: RoleID
+          in: path
+          required: true
+          description: The unique identifier of the role.
+          schema:
+            type: string
+        - name: UserID
+          in: path
+          required: true
+          description: The unique identifier of the user to remove.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The user was successfully removed from the role.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/textmodules:
+    get:
+      summary: Search for text modules
+      description: Retrieves a list of text modules.
+      operationId: TextModuleSearch
+      tags:
+        - System - Text Modules
+      responses:
+        '200':
+          description: A list of text modules.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  TextModule:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TextModule'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new text module
+      description: Creates a new text module.
+      operationId: TextModuleCreate
+      tags:
+        - System - Text Modules
+      requestBody:
+        description: The text module object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextModuleCreate'
+      responses:
+        '201':
+          description: The text module was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/textmodules/{TextModuleID}:
+    get:
+      summary: Get a specific text module
+      description: Retrieves the details of a specific text module.
+      operationId: TextModuleGet
+      tags:
+        - System - Text Modules
+      parameters:
+        - name: TextModuleID
+          in: path
+          required: true
+          description: The unique identifier of the text module.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Text module details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextModule'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a text module
+      description: Updates an existing text module.
+      operationId: TextModuleUpdate
+      tags:
+        - System - Text Modules
+      parameters:
+        - name: TextModuleID
+          in: path
+          required: true
+          description: The unique identifier of the text module to update.
+          schema:
+            type: string
+      requestBody:
+        description: The text module attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextModuleUpdate'
+      responses:
+        '200':
+          description: The text module was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a text module
+      description: Deletes a specific text module.
+      operationId: TextModuleDelete
+      tags:
+        - System - Text Modules
+      parameters:
+        - name: TextModuleID
+          in: path
+          required: true
+          description: The unique identifier of the text module to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The text module was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/mailaccounts:
+    get:
+      summary: Search for mail accounts
+      description: Retrieves a list of mail accounts.
+      operationId: MailAccountSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of mail accounts.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  MailAccount:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MailAccount'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new mail account
+      description: Creates a new mail account.
+      operationId: MailAccountCreate
+      tags:
+        - System - Communication
+      requestBody:
+        description: The mail account object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailAccountCreate'
+      responses:
+        '201':
+          description: The mail account was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/communication/mailaccounts/{MailAccountID}:
+    get:
+      summary: Get a specific mail account
+      description: Retrieves the details of a specific mail account.
+      operationId: MailAccountGet
+      tags:
+        - System - Communication
+      parameters:
+        - name: MailAccountID
+          in: path
+          required: true
+          description: The unique identifier of the mail account.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mail account details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailAccount'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a mail account
+      description: Updates an existing mail account.
+      operationId: MailAccountUpdate
+      tags:
+        - System - Communication
+      parameters:
+        - name: MailAccountID
+          in: path
+          required: true
+          description: The unique identifier of the mail account to update.
+          schema:
+            type: string
+      requestBody:
+        description: The mail account attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailAccountUpdate'
+      responses:
+        '200':
+          description: The mail account was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a mail account
+      description: Deletes a specific mail account.
+      operationId: MailAccountDelete
+      tags:
+        - System - Communication
+      parameters:
+        - name: MailAccountID
+          in: path
+          required: true
+          description: The unique identifier of the mail account to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The mail account was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/mailfilters:
+    get:
+      summary: Search for mail filters
+      description: Retrieves a list of mail filters.
+      operationId: MailFilterSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of mail filters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  MailFilter:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MailFilter'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new mail filter
+      description: Creates a new mail filter.
+      operationId: MailFilterCreate
+      tags:
+        - System - Communication
+      requestBody:
+        description: The mail filter object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailFilterCreate'
+      responses:
+        '201':
+          description: The mail filter was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/communication/mailfilters/{MailFilterID}:
+    get:
+      summary: Get a specific mail filter
+      description: Retrieves the details of a specific mail filter.
+      operationId: MailFilterGet
+      tags:
+        - System - Communication
+      parameters:
+        - name: MailFilterID
+          in: path
+          required: true
+          description: The unique identifier of the mail filter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mail filter details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailFilter'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a mail filter
+      description: Updates an existing mail filter.
+      operationId: MailFilterUpdate
+      tags:
+        - System - Communication
+      parameters:
+        - name: MailFilterID
+          in: path
+          required: true
+          description: The unique identifier of the mail filter to update.
+          schema:
+            type: string
+      requestBody:
+        description: The mail filter attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailFilterUpdate'
+      responses:
+        '200':
+          description: The mail filter was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a mail filter
+      description: Deletes a specific mail filter.
+      operationId: MailFilterDelete
+      tags:
+        - System - Communication
+      parameters:
+        - name: MailFilterID
+          in: path
+          required: true
+          description: The unique identifier of the mail filter to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The mail filter was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/notifications:
+    get:
+      summary: Search for notifications
+      description: Retrieves a list of notifications.
+      operationId: NotificationSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of notifications.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Notification:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notification'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new notification
+      description: Creates a new notification.
+      operationId: NotificationCreate
+      tags:
+        - System - Communication
+      requestBody:
+        description: The notification object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationCreate'
+      responses:
+        '201':
+          description: The notification was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/communication/notifications/{NotificationID}:
+    get:
+      summary: Get a specific notification
+      description: Retrieves the details of a specific notification.
+      operationId: NotificationGet
+      tags:
+        - System - Communication
+      parameters:
+        - name: NotificationID
+          in: path
+          required: true
+          description: The unique identifier of the notification.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a notification
+      description: Updates an existing notification.
+      operationId: NotificationUpdate
+      tags:
+        - System - Communication
+      parameters:
+        - name: NotificationID
+          in: path
+          required: true
+          description: The unique identifier of the notification to update.
+          schema:
+            type: string
+      requestBody:
+        description: The notification attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationUpdate'
+      responses:
+        '200':
+          description: The notification was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a notification
+      description: Deletes a specific notification.
+      operationId: NotificationDelete
+      tags:
+        - System - Communication
+      parameters:
+        - name: NotificationID
+          in: path
+          required: true
+          description: The unique identifier of the notification to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The notification was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/systemaddresses:
+    get:
+      summary: Search for system addresses
+      description: Retrieves a list of system addresses.
+      operationId: SystemAddressSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of system addresses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SystemAddress:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SystemAddress'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new system address
+      description: Creates a new system address.
+      operationId: SystemAddressCreate
+      tags:
+        - System - Communication
+      requestBody:
+        description: The system address object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SystemAddressCreate'
+      responses:
+        '201':
+          description: The system address was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/communication/systemaddresses/{SystemAddressID}:
+    get:
+      summary: Get a specific system address
+      description: Retrieves the details of a specific system address.
+      operationId: SystemAddressGet
+      tags:
+        - System - Communication
+      parameters:
+        - name: SystemAddressID
+          in: path
+          required: true
+          description: The unique identifier of the system address.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: System address details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemAddress'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a system address
+      description: Updates an existing system address.
+      operationId: SystemAddressUpdate
+      tags:
+        - System - Communication
+      parameters:
+        - name: SystemAddressID
+          in: path
+          required: true
+          description: The unique identifier of the system address to update.
+          schema:
+            type: string
+      requestBody:
+        description: The system address attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SystemAddressUpdate'
+      responses:
+        '200':
+          description: The system address was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a system address
+      description: Deletes a specific system address.
+      operationId: SystemAddressDelete
+      tags:
+        - System - Communication
+      parameters:
+        - name: SystemAddressID
+          in: path
+          required: true
+          description: The unique identifier of the system address to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The system address was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/config:
+    get:
+      summary: Search for system configuration options
+      description: Retrieves a list of system configuration options.
+      operationId: SysConfigOptionSearch
+      tags:
+        - System - Configuration
+      responses:
+        '200':
+          description: A list of configuration options.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ConfigOption:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConfigOption'
+        '401':
+          description: Unauthorized.
+  /system/config/{Option}:
+    get:
+      summary: Get a specific system configuration option
+      description: Retrieves the value of a specific system configuration option.
+      operationId: SysConfigOptionGet
+      tags:
+        - System - Configuration
+      parameters:
+        - name: Option
+          in: path
+          required: true
+          description: The name of the configuration option.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Configuration option value.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigOption'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a system configuration option
+      description: Updates the value of a specific system configuration option.
+      operationId: SysConfigOptionUpdate
+      tags:
+        - System - Configuration
+      parameters:
+        - name: Option
+          in: path
+          required: true
+          description: The name of the configuration option to update.
+          schema:
+            type: string
+      requestBody:
+        description: The new value for the configuration option.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Value:
+                  type: object
+                  description: The new value for the option. Can be any valid JSON type.
+      responses:
+        '200':
+          description: The configuration option was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/config/definitions:
+    get:
+      summary: Search for system configuration option definitions
+      description: Retrieves a list of system configuration option definitions.
+      operationId: SysConfigOptionDefinitionSearch
+      tags:
+        - System - Configuration
+      responses:
+        '200':
+          description: A list of configuration option definitions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ConfigOptionDefinition:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConfigOptionDefinition'
+        '401':
+          description: Unauthorized.
+  /system/dynamicfields:
+    get:
+      summary: Search for dynamic fields
+      description: Retrieves a list of dynamic fields.
+      operationId: DynamicFieldSearch
+      tags:
+        - System - Dynamic Fields
+      responses:
+        '200':
+          description: A list of dynamic fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  DynamicField:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DynamicField'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new dynamic field
+      description: Creates a new dynamic field.
+      operationId: DynamicFieldCreate
+      tags:
+        - System - Dynamic Fields
+      requestBody:
+        description: The dynamic field object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicFieldCreate'
+      responses:
+        '201':
+          description: The dynamic field was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/dynamicfields/{DynamicFieldID}:
+    get:
+      summary: Get a specific dynamic field
+      description: Retrieves the details of a specific dynamic field.
+      operationId: DynamicFieldGet
+      tags:
+        - System - Dynamic Fields
+      parameters:
+        - name: DynamicFieldID
+          in: path
+          required: true
+          description: The unique identifier of the dynamic field.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dynamic field details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicField'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a dynamic field
+      description: Updates an existing dynamic field.
+      operationId: DynamicFieldUpdate
+      tags:
+        - System - Dynamic Fields
+      parameters:
+        - name: DynamicFieldID
+          in: path
+          required: true
+          description: The unique identifier of the dynamic field to update.
+          schema:
+            type: string
+      requestBody:
+        description: The dynamic field attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DynamicFieldUpdate'
+      responses:
+        '200':
+          description: The dynamic field was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a dynamic field
+      description: Deletes a specific dynamic field.
+      operationId: DynamicFieldDelete
+      tags:
+        - System - Dynamic Fields
+      parameters:
+        - name: DynamicFieldID
+          in: path
+          required: true
+          description: The unique identifier of the dynamic field to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The dynamic field was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/dynamicfields/objecttypes:
+    get:
+      summary: Get dynamic field object types
+      description: Retrieves a list of possible object types for dynamic fields.
+      operationId: DynamicFieldObjectTypeSearch
+      tags:
+        - System - Dynamic Fields
+      responses:
+        '200':
+          description: A list of object types.
+        '401':
+          description: Unauthorized.
+  /system/dynamicfields/types:
+    get:
+      summary: Get dynamic field types
+      description: Retrieves a list of possible data types for dynamic fields.
+      operationId: DynamicFieldTypeSearch
+      tags:
+        - System - Dynamic Fields
+      responses:
+        '200':
+          description: A list of data types.
+        '401':
+          description: Unauthorized.
+  /system/generalcatalog:
+    get:
+      summary: Search for general catalog items
+      description: Retrieves a list of general catalog items.
+      operationId: GeneralCatalogItemSearch
+      tags:
+        - System - General Catalog
+      responses:
+        '200':
+          description: A list of general catalog items.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  GeneralCatalogItem:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GeneralCatalogItem'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new general catalog item
+      description: Creates a new general catalog item.
+      operationId: GeneralCatalogItemCreate
+      tags:
+        - System - General Catalog
+      requestBody:
+        description: The general catalog item object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneralCatalogItemCreate'
+      responses:
+        '201':
+          description: The general catalog item was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/generalcatalog/{GeneralCatalogItemID}:
+    get:
+      summary: Get a specific general catalog item
+      description: Retrieves the details of a specific general catalog item.
+      operationId: GeneralCatalogItemGet
+      tags:
+        - System - General Catalog
+      parameters:
+        - name: GeneralCatalogItemID
+          in: path
+          required: true
+          description: The unique identifier of the general catalog item.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: General catalog item details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralCatalogItem'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a general catalog item
+      description: Updates an existing general catalog item.
+      operationId: GeneralCatalogItemUpdate
+      tags:
+        - System - General Catalog
+      parameters:
+        - name: GeneralCatalogItemID
+          in: path
+          required: true
+          description: The unique identifier of the general catalog item to update.
+          schema:
+            type: string
+      requestBody:
+        description: The general catalog item attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneralCatalogItemUpdate'
+      responses:
+        '200':
+          description: The general catalog item was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a general catalog item
+      description: Deletes a specific general catalog item.
+      operationId: GeneralCatalogItemDelete
+      tags:
+        - System - General Catalog
+      parameters:
+        - name: GeneralCatalogItemID
+          in: path
+          required: true
+          description: The unique identifier of the general catalog item to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The general catalog item was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/generalcatalog/classes:
+    get:
+      summary: Get general catalog classes
+      description: Retrieves a list of all general catalog classes.
+      operationId: GeneralCatalogClassSearch
+      tags:
+        - System - General Catalog
+      responses:
+        '200':
+          description: A list of general catalog classes.
+        '401':
+          description: Unauthorized.
+  /system/i18n/translations:
+    get:
+      summary: Search for translation patterns
+      description: Retrieves a list of translation patterns.
+      operationId: TranslationPatternSearch
+      tags:
+        - System - i18n
+      responses:
+        '200':
+          description: A list of translation patterns.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  TranslationPattern:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TranslationPattern'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new translation pattern
+      description: Creates a new translation pattern.
+      operationId: TranslationPatternCreate
+      tags:
+        - System - i18n
+      requestBody:
+        description: The translation pattern object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslationPatternCreate'
+      responses:
+        '201':
+          description: The translation pattern was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/i18n/translations/{PatternID}:
+    get:
+      summary: Get a specific translation pattern
+      description: Retrieves the details of a specific translation pattern.
+      operationId: TranslationPatternGet
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The unique identifier of the translation pattern.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Translation pattern details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslationPattern'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a translation pattern
+      description: Updates an existing translation pattern.
+      operationId: TranslationPatternUpdate
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The unique identifier of the translation pattern to update.
+          schema:
+            type: string
+      requestBody:
+        description: The translation pattern attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslationPatternUpdate'
+      responses:
+        '200':
+          description: The translation pattern was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a translation pattern
+      description: Deletes a specific translation pattern.
+      operationId: TranslationPatternDelete
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The unique identifier of the translation pattern to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The translation pattern was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/i18n/translations/{PatternID}/languages:
+    get:
+      summary: Get languages for a translation pattern
+      description: Retrieves a list of languages for a specific translation pattern.
+      operationId: TranslationLanguageSearch
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The unique identifier of the translation pattern.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of languages.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/channels:
+    get:
+      summary: Search for communication channels
+      description: Retrieves a list of communication channels.
+      operationId: ChannelSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of channels.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Channel:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Channel'
+        '401':
+          description: Unauthorized.
+  /system/communication/channels/{ChannelID}:
+    get:
+      summary: Get a specific communication channel
+      description: Retrieves the details of a specific communication channel.
+      operationId: ChannelGet
+      tags:
+        - System - Communication
+      parameters:
+        - name: ChannelID
+          in: path
+          required: true
+          description: The unique identifier of the channel.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Channel details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channel'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/sendertypes:
+    get:
+      summary: Search for sender types
+      description: Retrieves a list of sender types.
+      operationId: SenderTypeSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of sender types.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SenderType:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SenderType'
+        '401':
+          description: Unauthorized.
+  /system/communication/sendertypes/{SenderTypeID}:
+    get:
+      summary: Get a specific sender type
+      description: Retrieves the details of a specific sender type.
+      operationId: SenderTypeGet
+      tags:
+        - System - Communication
+      parameters:
+        - name: SenderTypeID
+          in: path
+          required: true
+          description: The unique identifier of the sender type.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sender type details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SenderType'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/ticket/locks:
+    get:
+      summary: Search for ticket locks
+      description: Retrieves a list of ticket locks.
+      operationId: LockSearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of locks.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Lock:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lock'
+        '401':
+          description: Unauthorized.
+  /system/ticket/locks/{LockID}:
+    get:
+      summary: Get a specific ticket lock
+      description: Retrieves the details of a specific ticket lock.
+      operationId: LockGet
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: LockID
+          in: path
+          required: true
+          description: The unique identifier of the lock.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lock details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lock'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/execplans:
+    get:
+      summary: Search for execution plans
+      description: Retrieves a list of execution plans.
+      operationId: ExecPlanSearch
+      tags:
+        - System - Automation
+      responses:
+        '200':
+          description: A list of execution plans.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ExecPlan:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ExecPlan'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new execution plan
+      description: Creates a new execution plan.
+      operationId: ExecPlanCreate
+      tags:
+        - System - Automation
+      requestBody:
+        description: The execution plan object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecPlanCreate'
+      responses:
+        '201':
+          description: The execution plan was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/automation/execplans/{ExecPlanID}:
+    get:
+      summary: Get a specific execution plan
+      description: Retrieves the details of a specific execution plan.
+      operationId: ExecPlanGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: ExecPlanID
+          in: path
+          required: true
+          description: The unique identifier of the execution plan.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Execution plan details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecPlan'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an execution plan
+      description: Updates an existing execution plan.
+      operationId: ExecPlanUpdate
+      tags:
+        - System - Automation
+      parameters:
+        - name: ExecPlanID
+          in: path
+          required: true
+          description: The unique identifier of the execution plan to update.
+          schema:
+            type: string
+      requestBody:
+        description: The execution plan attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecPlanUpdate'
+      responses:
+        '200':
+          description: The execution plan was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an execution plan
+      description: Deletes a specific execution plan.
+      operationId: ExecPlanDelete
+      tags:
+        - System - Automation
+      parameters:
+        - name: ExecPlanID
+          in: path
+          required: true
+          description: The unique identifier of the execution plan to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The execution plan was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs:
+    get:
+      summary: Search for automation jobs
+      description: Retrieves a list of automation jobs.
+      operationId: JobSearch
+      tags:
+        - System - Automation
+      responses:
+        '200':
+          description: A list of automation jobs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Job:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Job'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new automation job
+      description: Creates a new automation job.
+      operationId: JobCreate
+      tags:
+        - System - Automation
+      requestBody:
+        description: The automation job object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreate'
+      responses:
+        '201':
+          description: The automation job was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/automation/jobs/{JobID}:
+    get:
+      summary: Get a specific automation job
+      description: Retrieves the details of a specific automation job.
+      operationId: JobGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The unique identifier of the automation job.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Automation job details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an automation job
+      description: Updates an existing automation job.
+      operationId: JobUpdate
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The unique identifier of the automation job to update.
+          schema:
+            type: string
+      requestBody:
+        description: The automation job attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobUpdate'
+      responses:
+        '200':
+          description: The automation job was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an automation job
+      description: Deletes a specific automation job.
+      operationId: JobDelete
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The unique identifier of the automation job to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The automation job was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros:
+    get:
+      summary: Search for automation macros
+      description: Retrieves a list of automation macros.
+      operationId: MacroSearch
+      tags:
+        - System - Automation
+      responses:
+        '200':
+          description: A list of automation macros.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Macro:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Macro'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new automation macro
+      description: Creates a new automation macro.
+      operationId: MacroCreate
+      tags:
+        - System - Automation
+      requestBody:
+        description: The automation macro object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MacroCreate'
+      responses:
+        '201':
+          description: The automation macro was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/automation/macros/{MacroID}:
+    get:
+      summary: Get a specific automation macro
+      description: Retrieves the details of a specific automation macro.
+      operationId: MacroGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The unique identifier of the automation macro.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Automation macro details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Macro'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an automation macro
+      description: Updates an existing automation macro.
+      operationId: MacroUpdate
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The unique identifier of the automation macro to update.
+          schema:
+            type: string
+      requestBody:
+        description: The automation macro attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MacroUpdate'
+      responses:
+        '200':
+          description: The automation macro was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an automation macro
+      description: Deletes a specific automation macro.
+      operationId: MacroDelete
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The unique identifier of the automation macro to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The automation macro was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros/types:
+    get:
+      summary: Get macro types
+      description: Retrieves a list of possible types for automation macros.
+      operationId: MacroTypeSearch
+      tags:
+        - System - Automation
+      responses:
+        '200':
+          description: A list of macro types.
+        '401':
+          description: Unauthorized.
+  /system/certificates:
+    get:
+      summary: Search for certificates
+      description: Retrieves a list of certificates.
+      operationId: CertificateSearch
+      tags:
+        - System - Security
+      responses:
+        '200':
+          description: A list of certificates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Certificate:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Certificate'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new certificate
+      description: Creates a new certificate.
+      operationId: CertificateCreate
+      tags:
+        - System - Security
+      requestBody:
+        description: The certificate object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateCreate'
+      responses:
+        '201':
+          description: The certificate was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/certificates/{CertificateID}:
+    get:
+      summary: Get a specific certificate
+      description: Retrieves the details of a specific certificate.
+      operationId: CertificateGet
+      tags:
+        - System - Security
+      parameters:
+        - name: CertificateID
+          in: path
+          required: true
+          description: The unique identifier of the certificate.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Certificate details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a certificate
+      description: Deletes a specific certificate.
+      operationId: CertificateDelete
+      tags:
+        - System - Security
+      parameters:
+        - name: CertificateID
+          in: path
+          required: true
+          description: The unique identifier of the certificate to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The certificate was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/objecticons:
+    get:
+      summary: Search for object icons
+      description: Retrieves a list of object icons.
+      operationId: ObjectIconSearch
+      tags:
+        - System - UI
+      responses:
+        '200':
+          description: A list of object icons.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ObjectIcon:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ObjectIcon'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new object icon
+      description: Creates a new object icon.
+      operationId: ObjectIconCreate
+      tags:
+        - System - UI
+      requestBody:
+        description: The object icon object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectIconCreate'
+      responses:
+        '201':
+          description: The object icon was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/objecticons/{ObjectIconID}:
+    get:
+      summary: Get a specific object icon
+      description: Retrieves the details of a specific object icon.
+      operationId: ObjectIconGet
+      tags:
+        - System - UI
+      parameters:
+        - name: ObjectIconID
+          in: path
+          required: true
+          description: The unique identifier of the object icon.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object icon details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectIcon'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an object icon
+      description: Updates an existing object icon.
+      operationId: ObjectIconUpdate
+      tags:
+        - System - UI
+      parameters:
+        - name: ObjectIconID
+          in: path
+          required: true
+          description: The unique identifier of the object icon to update.
+          schema:
+            type: string
+      requestBody:
+        description: The object icon attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectIconUpdate'
+      responses:
+        '200':
+          description: The object icon was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an object icon
+      description: Deletes a specific object icon.
+      operationId: ObjectIconDelete
+      tags:
+        - System - UI
+      parameters:
+        - name: ObjectIconID
+          in: path
+          required: true
+          description: The unique identifier of the object icon to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The object icon was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/plugins:
+    get:
+      summary: Search for plugins
+      description: Retrieves a list of installed plugins.
+      operationId: PluginSearch
+      tags:
+        - System - Plugins
+      responses:
+        '200':
+          description: A list of plugins.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Plugin:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Plugin'
+        '401':
+          description: Unauthorized.
+  /system/plugins/{Product}:
+    get:
+      summary: Get a specific plugin
+      description: Retrieves the details of a specific plugin by its product name.
+      operationId: PluginGet
+      tags:
+        - System - Plugins
+      parameters:
+        - name: Product
+          in: path
+          required: true
+          description: The product name of the plugin.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Plugin details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plugin'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a plugin
+      description: Updates an existing plugin.
+      operationId: PluginUpdate
+      tags:
+        - System - Plugins
+      parameters:
+        - name: Product
+          in: path
+          required: true
+          description: The product name of the plugin to update.
+          schema:
+            type: string
+      requestBody:
+        description: The plugin attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginUpdate'
+      responses:
+        '200':
+          description: The plugin was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/valid:
+    get:
+      summary: Search for valid states
+      description: Retrieves a list of validity states.
+      operationId: ValidSearch
+      tags:
+        - System - Validity
+      responses:
+        '200':
+          description: A list of valid states.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Valid:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Valid'
+        '401':
+          description: Unauthorized.
+  /system/valid/{ValidID}:
+    get:
+      summary: Get a specific valid state
+      description: Retrieves the details of a specific validity state.
+      operationId: ValidGet
+      tags:
+        - System - Validity
+      parameters:
+        - name: ValidID
+          in: path
+          required: true
+          description: The unique identifier of the validity state.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Validity state details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Valid'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /reporting/reportdefinitions:
+    get:
+      summary: Search for report definitions
+      description: Retrieves a list of report definitions.
+      operationId: ReportDefinitionSearch
+      tags:
+        - Reporting
+      responses:
+        '200':
+          description: A list of report definitions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ReportDefinition:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReportDefinition'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new report definition
+      description: Creates a new report definition.
+      operationId: ReportDefinitionCreate
+      tags:
+        - Reporting
+      requestBody:
+        description: The report definition object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportDefinitionCreate'
+      responses:
+        '201':
+          description: The report definition was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /reporting/reportdefinitions/{ReportDefinitionID}:
+    get:
+      summary: Get a specific report definition
+      description: Retrieves the details of a specific report definition.
+      operationId: ReportDefinitionGet
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportDefinitionID
+          in: path
+          required: true
+          description: The unique identifier of the report definition.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report definition details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDefinition'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a report definition
+      description: Updates an existing report definition.
+      operationId: ReportDefinitionUpdate
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportDefinitionID
+          in: path
+          required: true
+          description: The unique identifier of the report definition to update.
+          schema:
+            type: string
+      requestBody:
+        description: The report definition attributes to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportDefinitionUpdate'
+      responses:
+        '200':
+          description: The report definition was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a report definition
+      description: Deletes a specific report definition.
+      operationId: ReportDefinitionDelete
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportDefinitionID
+          in: path
+          required: true
+          description: The unique identifier of the report definition to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The report definition was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /reporting/reports:
+    get:
+      summary: Search for reports
+      description: Retrieves a list of reports.
+      operationId: ReportSearch
+      tags:
+        - Reporting
+      responses:
+        '200':
+          description: A list of reports.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Report:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Report'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new report
+      description: Creates a new report.
+      operationId: ReportCreate
+      tags:
+        - Reporting
+      requestBody:
+        description: The report object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportCreate'
+      responses:
+        '201':
+          description: The report was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /reporting/reports/{ReportID}:
+    get:
+      summary: Get a specific report
+      description: Retrieves the details of a specific report.
+      operationId: ReportGet
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportID
+          in: path
+          required: true
+          description: The unique identifier of the report.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a report
+      description: Deletes a specific report.
+      operationId: ReportDelete
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportID
+          in: path
+          required: true
+          description: The unique identifier of the report to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The report was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /reporting/reports/{ReportID}/results:
+    get:
+      summary: Get report results
+      description: Retrieves the results of a specific report.
+      operationId: ReportResultSearch
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportID
+          in: path
+          required: true
+          description: The unique identifier of the report.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report results.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/console:
+    get:
+      summary: Search for console commands
+      description: Retrieves a list of available console commands.
+      operationId: ConsoleCommandSearch
+      tags:
+        - System - Console
+      responses:
+        '200':
+          description: A list of console commands.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Command:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Command'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Execute a console command
+      description: Executes a console command.
+      operationId: ConsoleCommandExecute
+      tags:
+        - System - Console
+      requestBody:
+        description: The command to be executed.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - Command
+              properties:
+                Command:
+                  type: string
+                  description: The full command string to execute.
+      responses:
+        '200':
+          description: The command was successfully executed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Result:
+                    type: string
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/console/{Command}:
+    get:
+      summary: Get a specific console command
+      description: Retrieves the details of a specific console command.
+      operationId: ConsoleCommandGet
+      tags:
+        - System - Console
+      parameters:
+        - name: Command
+          in: path
+          required: true
+          description: The name of the command.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Command details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Command'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /links:
+    get:
+      summary: Search for links
+      description: Retrieves a list of links.
+      operationId: LinkSearch
+      tags:
+        - Links
+      responses:
+        '200':
+          description: A list of links.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Link:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Link'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new link
+      description: Creates a new link between objects.
+      operationId: LinkCreate
+      tags:
+        - Links
+      requestBody:
+        description: The link object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkCreate'
+      responses:
+        '201':
+          description: The link was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /links/{LinkID}:
+    get:
+      summary: Get a specific link
+      description: Retrieves the details of a specific link.
+      operationId: LinkGet
+      tags:
+        - Links
+      parameters:
+        - name: LinkID
+          in: path
+          required: true
+          description: The unique identifier of the link.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Link details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a link
+      description: Deletes a specific link.
+      operationId: LinkDelete
+      tags:
+        - Links
+      parameters:
+        - name: LinkID
+          in: path
+          required: true
+          description: The unique identifier of the link to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The link was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /links/types:
+    get:
+      summary: Get link types
+      description: Retrieves a list of possible link types.
+      operationId: LinkTypeSearch
+      tags:
+        - Links
+      responses:
+        '200':
+          description: A list of link types.
+        '401':
+          description: Unauthorized.
+  /objectsearch/{ObjectType}:
+    get:
+      summary: Get supported attributes for an object type
+      description: Retrieves a list of supported attributes for a given object type that can be used in searches.
+      operationId: SupportedAttributesGet
+      tags:
+        - Object Search
+      parameters:
+        - name: ObjectType
+          in: path
+          required: true
+          description: The type of object to get searchable attributes for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of supported attributes.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /objecttags:
+    get:
+      summary: Search for object tags
+      description: Retrieves a list of object tags.
+      operationId: ObjectTagSearch
+      tags:
+        - Object Tags
+      responses:
+        '200':
+          description: A list of object tags.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ObjectTag:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ObjectTag'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new object tag
+      description: Creates a new object tag.
+      operationId: ObjectTagCreate
+      tags:
+        - Object Tags
+      requestBody:
+        description: The object tag to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectTagCreate'
+      responses:
+        '201':
+          description: The object tag was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /objecttags/{ObjectTagID}:
+    get:
+      summary: Get a specific object tag
+      description: Retrieves the details of a specific object tag.
+      operationId: ObjectTagGet
+      tags:
+        - Object Tags
+      parameters:
+        - name: ObjectTagID
+          in: path
+          required: true
+          description: The unique identifier of the object tag.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object tag details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectTag'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete an object tag
+      description: Deletes a specific object tag.
+      operationId: ObjectTagDelete
+      tags:
+        - Object Tags
+      parameters:
+        - name: ObjectTagID
+          in: path
+          required: true
+          description: The unique identifier of the object tag to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The object tag was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /watchers:
+    get:
+      summary: Search for watchers
+      description: Retrieves a list of watchers.
+      operationId: WatcherSearch
+      tags:
+        - Watchers
+      responses:
+        '200':
+          description: A list of watchers.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Watcher:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Watcher'
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new watcher
+      description: Creates a new watcher for an object.
+      operationId: WatcherCreate
+      tags:
+        - Watchers
+      requestBody:
+        description: The watcher object to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatcherCreate'
+      responses:
+        '201':
+          description: The watcher was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /watchers/{WatcherID}:
+    get:
+      summary: Get a specific watcher
+      description: Retrieves the details of a specific watcher.
+      operationId: WatcherGet
+      tags:
+        - Watchers
+      parameters:
+        - name: WatcherID
+          in: path
+          required: true
+          description: The unique identifier of the watcher.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Watcher details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Watcher'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    delete:
+      summary: Delete a watcher
+      description: Deletes a specific watcher.
+      operationId: WatcherDelete
+      tags:
+        - Watchers
+      parameters:
+        - name: WatcherID
+          in: path
+          required: true
+          description: The unique identifier of the watcher to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The watcher was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        TicketID:
+          type: string
+        TicketNumber:
+          type: string
+        Title:
+          type: string
+        Queue:
+          type: string
+        State:
+          type: string
+        Priority:
+          type: string
+        CustomerUser:
+          type: string
+        Owner:
+          type: string
+        Created:
+          type: string
+          format: date-time
+        Changed:
+          type: string
+          format: date-time
+    TicketCreate:
+      type: object
+      required:
+        - Title
+        - Queue
+        - CustomerUser
+        - Article
+      properties:
+        Title:
+          type: string
+        Queue:
+          type: string
+        CustomerUser:
+          type: string
+        Article:
+          $ref: '#/components/schemas/Article'
+        DynamicField:
+          type: array
+          items:
+            $ref: '#/components/schemas/DynamicField'
+    TicketUpdate:
+      type: object
+      properties:
+        Title:
+          type: string
+        Queue:
+          type: string
+        State:
+          type: string
+        Owner:
+          type: string
+        Priority:
+          type: string
+    Article:
+      type: object
+      required:
+        - Subject
+        - Body
+        - MimeType
+        - SenderType
+      properties:
+        Subject:
+          type: string
+        Body:
+          type: string
+        MimeType:
+          type: string
+        SenderType:
+          type: string
+    DynamicField:
+      type: object
+      properties:
+        Name:
+          type: string
+        Value:
+          type: string
+    Contact:
+      type: object
+      properties:
+        ContactID:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        Phone:
+          type: string
+        OrganisationID:
+          type: string
+    ContactCreate:
+      type: object
+      required:
+        - FirstName
+        - LastName
+        - Email
+      properties:
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        Phone:
+          type: string
+        OrganisationID:
+          type: string
+    ContactUpdate:
+      type: object
+      properties:
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        Phone:
+          type: string
+        OrganisationID:
+          type: string
+    Organisation:
+      type: object
+      properties:
+        OrganisationID:
+          type: string
+        Name:
+          type: string
+        Address:
+          type: string
+        Website:
+          type: string
+    OrganisationCreate:
+      type: object
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+        Address:
+          type: string
+        Website:
+          type: string
+    OrganisationUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Address:
+          type: string
+        Website:
+          type: string
+    FAQArticle:
+      type: object
+      properties:
+        FAQArticleID:
+          type: string
+        Title:
+          type: string
+        CategoryID:
+          type: string
+        Content:
+          type: string
+        Keywords:
+          type: string
+    FAQArticleCreate:
+      type: object
+      required:
+        - Title
+        - CategoryID
+        - Content
+      properties:
+        Title:
+          type: string
+        CategoryID:
+          type: string
+        Content:
+          type: string
+        Keywords:
+          type: string
+    FAQArticleUpdate:
+      type: object
+      properties:
+        Title:
+          type: string
+        CategoryID:
+          type: string
+        Content:
+          type: string
+        Keywords:
+          type: string
+    User:
+      type: object
+      properties:
+        UserID:
+          type: string
+        Login:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        IsActive:
+          type: boolean
+    UserCreate:
+      type: object
+      required:
+        - Login
+        - FirstName
+        - LastName
+        - Email
+      properties:
+        Login:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        IsActive:
+          type: boolean
+          default: true
+    UserUpdate:
+      type: object
+      properties:
+        Login:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Email:
+          type: string
+        IsActive:
+          type: boolean
+    ConfigItem:
+      type: object
+      properties:
+        ConfigItemID:
+          type: string
+        Name:
+          type: string
+        ClassID:
+          type: string
+        DeploymentState:
+          type: string
+    ConfigItemCreate:
+      type: object
+      required:
+        - Name
+        - ClassID
+      properties:
+        Name:
+          type: string
+        ClassID:
+          type: string
+        DeploymentState:
+          type: string
+    ConfigItemUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        ClassID:
+          type: string
+        DeploymentState:
+          type: string
+    Queue:
+      type: object
+      properties:
+        QueueID:
+          type: string
+        Name:
+          type: string
+        GroupID:
+          type: string
+        SystemAddressID:
+          type: string
+    QueueCreate:
+      type: object
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+        GroupID:
+          type: string
+        SystemAddressID:
+          type: string
+    QueueUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        GroupID:
+          type: string
+        SystemAddressID:
+          type: string
+    TicketState:
+      type: object
+      properties:
+        StateID:
+          type: string
+        Name:
+          type: string
+        TypeID:
+          type: string
+    TicketStateCreate:
+      type: object
+      required:
+        - Name
+        - TypeID
+      properties:
+        Name:
+          type: string
+        TypeID:
+          type: string
+    TicketStateUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        TypeID:
+          type: string
+    Priority:
+      type: object
+      properties:
+        PriorityID:
+          type: string
+        Name:
+          type: string
+    PriorityCreate:
+      type: object
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+    PriorityUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+    TicketType:
+      type: object
+      properties:
+        TypeID:
+          type: string
+        Name:
+          type: string
+    TicketTypeCreate:
+      type: object
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+    TicketTypeUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+    Credentials:
+      type: object
+      required:
+        - User
+        - Password
+      properties:
+        User:
+          type: string
+          description: The username for authentication.
+        Password:
+          type: string
+          format: password
+          description: The user's password.
+        OTP:
+          type: string
+          description: The one-time password, if two-factor authentication is enabled.
+    SessionInfo:
+      type: object
+      properties:
+        UserID:
+          type: string
+        UserLogin:
+          type: string
+        UserFirstname:
+          type: string
+        UserLastname:
+          type: string
+        SessionID:
+          type: string
+        ChallengeToken:
+          type: string
+    Role:
+      type: object
+      properties:
+        RoleID:
+          type: string
+        Name:
+          type: string
+    RoleCreate:
+      type: object
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+    RoleUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+    Permission:
+      type: object
+      properties:
+        PermissionID:
+          type: string
+        PermissionKey:
+          type: string
+        PermissionValue:
+          type: string
+    PermissionCreate:
+      type: object
+      required:
+        - PermissionKey
+        - PermissionValue
+      properties:
+        PermissionKey:
+          type: string
+        PermissionValue:
+          type: string
+    PermissionUpdate:
+      type: object
+      properties:
+        PermissionValue:
+          type: string
+    TextModule:
+      type: object
+      properties:
+        TextModuleID:
+          type: string
+        Name:
+          type: string
+        Content:
+          type: string
+        CategoryID:
+          type: string
+    TextModuleCreate:
+      type: object
+      required:
+        - Name
+        - Content
+      properties:
+        Name:
+          type: string
+        Content:
+          type: string
+        CategoryID:
+          type: string
+    TextModuleUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Content:
+          type: string
+        CategoryID:
+          type: string
+    MailAccount:
+      type: object
+      properties:
+        MailAccountID:
+          type: string
+        Host:
+          type: string
+        User:
+          type: string
+        Type:
+          type: string
+    MailAccountCreate:
+      type: object
+      required:
+        - Host
+        - User
+        - Password
+      properties:
+        Host:
+          type: string
+        User:
+          type: string
+        Password:
+          type: string
+        Type:
+          type: string
+    MailAccountUpdate:
+      type: object
+      properties:
+        Host:
+          type: string
+        User:
+          type: string
+        Password:
+          type: string
+        Type:
+          type: string
+    MailFilter:
+      type: object
+      properties:
+        MailFilterID:
+          type: string
+        Name:
+          type: string
+        Match:
+          type: object
+        Action:
+          type: object
+    MailFilterCreate:
+      type: object
+      required:
+        - Name
+        - Match
+        - Action
+      properties:
+        Name:
+          type: string
+        Match:
+          type: object
+        Action:
+          type: object
+    MailFilterUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Match:
+          type: object
+        Action:
+          type: object
+    Notification:
+      type: object
+      properties:
+        NotificationID:
+          type: string
+        Name:
+          type: string
+        Event:
+          type: string
+        Transport:
+          type: string
+        Recipient:
+          type: object
+        Subject:
+          type: string
+        Body:
+          type: string
+    NotificationCreate:
+      type: object
+      required:
+        - Name
+        - Event
+        - Transport
+      properties:
+        Name:
+          type: string
+        Event:
+          type: string
+        Transport:
+          type: string
+        Recipient:
+          type: object
+        Subject:
+          type: string
+        Body:
+          type: string
+    NotificationUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Event:
+          type: string
+        Transport:
+          type: string
+        Recipient:
+          type: object
+        Subject:
+          type: string
+        Body:
+          type: string
+    SystemAddress:
+      type: object
+      properties:
+        SystemAddressID:
+          type: string
+        Email:
+          type: string
+        RealName:
+          type: string
+    SystemAddressCreate:
+      type: object
+      required:
+        - Email
+      properties:
+        Email:
+          type: string
+        RealName:
+          type: string
+    SystemAddressUpdate:
+      type: object
+      properties:
+        Email:
+          type: string
+        RealName:
+          type: string
+    ConfigOption:
+      type: object
+      properties:
+        Name:
+          type: string
+        Value:
+          type: object
+    ConfigOptionDefinition:
+      type: object
+      properties:
+        Name:
+          type: string
+        Description:
+          type: string
+        Type:
+          type: string
+    DynamicField:
+      type: object
+      properties:
+        DynamicFieldID:
+          type: string
+        Name:
+          type: string
+        Label:
+          type: string
+        FieldType:
+          type: string
+        ObjectType:
+          type: string
+    DynamicFieldCreate:
+      type: object
+      required:
+        - Name
+        - Label
+        - FieldType
+        - ObjectType
+      properties:
+        Name:
+          type: string
+        Label:
+          type: string
+        FieldType:
+          type: string
+        ObjectType:
+          type: string
+    DynamicFieldUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Label:
+          type: string
+        FieldType:
+          type: string
+        ObjectType:
+          type: string
+    GeneralCatalogItem:
+      type: object
+      properties:
+        GeneralCatalogItemID:
+          type: string
+        Class:
+          type: string
+        Name:
+          type: string
+    GeneralCatalogItemCreate:
+      type: object
+      required:
+        - Class
+        - Name
+      properties:
+        Class:
+          type: string
+        Name:
+          type: string
+    GeneralCatalogItemUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+    TranslationPattern:
+      type: object
+      properties:
+        PatternID:
+          type: string
+        Pattern:
+          type: string
+    TranslationPatternCreate:
+      type: object
+      required:
+        - Pattern
+      properties:
+        Pattern:
+          type: string
+    TranslationPatternUpdate:
+      type: object
+      properties:
+        Pattern:
+          type: string
+    Channel:
+      type: object
+      properties:
+        ChannelID:
+          type: string
+        Name:
+          type: string
+    SenderType:
+      type: object
+      properties:
+        SenderTypeID:
+          type: string
+        Name:
+          type: string
+    Lock:
+      type: object
+      properties:
+        LockID:
+          type: string
+        TicketID:
+          type: string
+        UserID:
+          type: string
+    ExecPlan:
+      type: object
+      properties:
+        ExecPlanID:
+          type: string
+        Name:
+          type: string
+        Type:
+          type: string
+    ExecPlanCreate:
+      type: object
+      required:
+        - Name
+        - Type
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+    ExecPlanUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+    Job:
+      type: object
+      properties:
+        JobID:
+          type: string
+        Name:
+          type: string
+        Type:
+          type: string
+    JobCreate:
+      type: object
+      required:
+        - Name
+        - Type
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+    JobUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+    Macro:
+      type: object
+      properties:
+        MacroID:
+          type: string
+        Name:
+          type: string
+        Type:
+          type: string
+    MacroCreate:
+      type: object
+      required:
+        - Name
+        - Type
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+    MacroUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        Type:
+          type: string
+    Certificate:
+      type: object
+      properties:
+        CertificateID:
+          type: string
+        Name:
+          type: string
+        CommonName:
+          type: string
+    CertificateCreate:
+      type: object
+      required:
+        - Name
+        - CertificateData
+      properties:
+        Name:
+          type: string
+        CertificateData:
+          type: string
+    ObjectIcon:
+      type: object
+      properties:
+        ObjectIconID:
+          type: string
+        Name:
+          type: string
+        IconData:
+          type: string
+    ObjectIconCreate:
+      type: object
+      required:
+        - Name
+        - IconData
+      properties:
+        Name:
+          type: string
+        IconData:
+          type: string
+    ObjectIconUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        IconData:
+          type: string
+    Plugin:
+      type: object
+      properties:
+        Product:
+          type: string
+        Version:
+          type: string
+        IsActive:
+          type: boolean
+    PluginUpdate:
+      type: object
+      properties:
+        IsActive:
+          type: boolean
+    Valid:
+      type: object
+      properties:
+        ValidID:
+          type: string
+        Name:
+          type: string
+        IsValid:
+          type: boolean
+    ReportDefinition:
+      type: object
+      properties:
+        ReportDefinitionID:
+          type: string
+        Name:
+          type: string
+        DataSource:
+          type: string
+    ReportDefinitionCreate:
+      type: object
+      required:
+        - Name
+        - DataSource
+      properties:
+        Name:
+          type: string
+        DataSource:
+          type: string
+    ReportDefinitionUpdate:
+      type: object
+      properties:
+        Name:
+          type: string
+        DataSource:
+          type: string
+    Report:
+      type: object
+      properties:
+        ReportID:
+          type: string
+        ReportDefinitionID:
+          type: string
+        OutputFormat:
+          type: string
+    ReportCreate:
+      type: object
+      required:
+        - ReportDefinitionID
+        - OutputFormat
+      properties:
+        ReportDefinitionID:
+          type: string
+        OutputFormat:
+          type: string
+    Command:
+      type: object
+      properties:
+        Name:
+          type: string
+        Description:
+          type: string
+    Link:
+      type: object
+      properties:
+        LinkID:
+          type: string
+        SourceObject:
+          type: string
+        TargetObject:
+          type: string
+        Type:
+          type: string
+    LinkCreate:
+      type: object
+      required:
+        - SourceObject
+        - TargetObject
+        - Type
+      properties:
+        SourceObject:
+          type: string
+        TargetObject:
+          type: string
+        Type:
+          type: string
+    ObjectTag:
+      type: object
+      properties:
+        ObjectTagID:
+          type: string
+        Name:
+          type: string
+    ObjectTagCreate:
+      type: object
+      required:
+        - Name
+      properties:
+        Name:
+          type: string
+    Watcher:
+      type: object
+      properties:
+        WatcherID:
+          type: string
+        UserID:
+          type: string
+        ObjectID:
+          type: string
+        ObjectType:
+          type: string
+    WatcherCreate:
+      type: object
+      required:
+        - UserID
+        - ObjectID
+        - ObjectType
+      properties:
+        UserID:
+          type: string
+        ObjectID:
+          type: string
+        ObjectType:
+          type: string
