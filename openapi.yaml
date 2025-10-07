@@ -4474,6 +4474,2801 @@ paths:
           description: Unauthorized.
         '404':
           description: Not Found.
+  /clientregistrations/{ClientID}:
+    delete:
+      summary: Delete a client registration
+      description: Deletes a specific client registration.
+      operationId: ClientRegistrationDelete
+      tags:
+        - Client Registrations
+      parameters:
+        - name: ClientID
+          in: path
+          required: true
+          description: The unique identifier of the client to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The client registration was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/images/{ImageID}:
+    delete:
+      summary: Delete a configuration item image
+      description: Deletes a specific image from a configuration item.
+      operationId: ConfigItemImageDelete
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+        - name: ImageID
+          in: path
+          required: true
+          description: The ID of the image to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The image was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/attachments/{FAQAttachmentID}:
+    delete:
+      summary: Delete an FAQ article attachment
+      description: Deletes a specific attachment from an FAQ article.
+      operationId: FAQArticleAttachmentDelete
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+        - name: FAQAttachmentID
+          in: path
+          required: true
+          description: The ID of the attachment to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The attachment was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/votes/{FAQVoteID}:
+    delete:
+      summary: Delete a vote for an FAQ article
+      description: Deletes a specific vote for an FAQ article.
+      operationId: FAQArticleVoteDelete
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+        - name: FAQVoteID
+          in: path
+          required: true
+          description: The ID of the vote to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The vote was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /reporting/reports/{ReportID}/results/{ReportResultID}:
+    delete:
+      summary: Delete a report result
+      description: Deletes a specific result from a report.
+      operationId: ReportResultDelete
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportID
+          in: path
+          required: true
+          description: The ID of the report.
+          schema:
+            type: string
+        - name: ReportResultID
+          in: path
+          required: true
+          description: The ID of the result to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The report result was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /session/user/preferences/{UserPreferenceID}:
+    delete:
+      summary: Delete a user preference
+      description: Deletes a specific preference for the current user.
+      operationId: SessionUserPreferenceDelete
+      tags:
+        - Session
+      parameters:
+        - name: UserPreferenceID
+          in: path
+          required: true
+          description: The ID of the user preference to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The user preference was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/{JobID}/execplanids/{ExecPlanID}:
+    delete:
+      summary: Delete an execution plan from a job
+      description: Removes an execution plan from a specific automation job.
+      operationId: JobExecPlanIDDelete
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+        - name: ExecPlanID
+          in: path
+          required: true
+          description: The ID of the execution plan to remove.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The execution plan was successfully removed from the job.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/{JobID}/macroids/{MacroID}:
+    delete:
+      summary: Delete a macro from a job
+      description: Removes a macro from a specific automation job.
+      operationId: JobMacroIDDelete
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+        - name: MacroID
+          in: path
+          required: true
+          description: The ID of the macro to remove.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The macro was successfully removed from the job.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros/{MacroID}/actions/{MacroActionID}:
+    delete:
+      summary: Delete a macro action
+      description: Deletes a specific action from a macro.
+      operationId: MacroActionDelete
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The ID of the macro.
+          schema:
+            type: string
+        - name: MacroActionID
+          in: path
+          required: true
+          description: The ID of the action to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The macro action was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/cmdb/classes/{ClassID}:
+    delete:
+      summary: Delete a CMDB class
+      description: Deletes a specific CMDB class.
+      operationId: ClassDelete
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The CMDB class was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/cmdb/classes/{ClassID}/definitions/{DefinitionID}:
+    delete:
+      summary: Delete a CMDB class definition
+      description: Deletes a specific definition from a CMDB class.
+      operationId: ClassDefinitionDelete
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class.
+          schema:
+            type: string
+        - name: DefinitionID
+          in: path
+          required: true
+          description: The ID of the definition to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The CMDB class definition was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/config/definitions/{Option}:
+    delete:
+      summary: Delete a system configuration option definition
+      description: Deletes a specific system configuration option definition.
+      operationId: SysConfigOptionDefinitionDelete
+      tags:
+        - System - Configuration
+      parameters:
+        - name: Option
+          in: path
+          required: true
+          description: The name of the configuration option definition to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The configuration option definition was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/console/files/{FileID}:
+    delete:
+      summary: Delete a console file
+      description: Deletes a specific console file.
+      operationId: ConsoleFileDelete
+      tags:
+        - System - Console
+      parameters:
+        - name: FileID
+          in: path
+          required: true
+          description: The ID of the file to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The file was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/faq/categories/{FAQCategoryID}:
+    delete:
+      summary: Delete an FAQ category
+      description: Deletes a specific FAQ category.
+      operationId: FAQCategoryDelete
+      tags:
+        - System - FAQ
+      parameters:
+        - name: FAQCategoryID
+          in: path
+          required: true
+          description: The ID of the FAQ category to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The FAQ category was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/i18n/translations/{PatternID}/languages/{Language}:
+    delete:
+      summary: Delete a translation for a language
+      description: Deletes a specific translation for a given language and pattern.
+      operationId: TranslationLanguageDelete
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The ID of the translation pattern.
+          schema:
+            type: string
+        - name: Language
+          in: path
+          required: true
+          description: The language code (e.g., 'en', 'de').
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The translation was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/migration/{MigrationID}:
+    delete:
+      summary: Delete a migration
+      description: Deletes a specific migration.
+      operationId: MigrationDelete
+      tags:
+        - System - Migration
+      parameters:
+        - name: MigrationID
+          in: path
+          required: true
+          description: The ID of the migration to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The migration was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/oauth2/profiles/{ProfileID}:
+    delete:
+      summary: Delete an OAuth2 profile
+      description: Deletes a specific OAuth2 profile.
+      operationId: ProfileDelete
+      tags:
+        - System - OAuth2
+      parameters:
+        - name: ProfileID
+          in: path
+          required: true
+          description: The ID of the OAuth2 profile to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The OAuth2 profile was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/users/{UserID}/preferences/{UserPreferenceID}:
+    delete:
+      summary: Delete a user preference
+      description: Deletes a specific preference for a user.
+      operationId: UserPreferenceDelete
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+        - name: UserPreferenceID
+          in: path
+          required: true
+          description: The ID of the user preference to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The user preference was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/users/{UserID}/roleids/{RoleID}:
+    delete:
+      summary: Remove a role from a user
+      description: Removes a specific role from a user.
+      operationId: UserRoleIDDelete
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+        - name: RoleID
+          in: path
+          required: true
+          description: The ID of the role to remove.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The role was successfully removed from the user.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}:
+    delete:
+      summary: Delete a ticket article
+      description: Deletes a specific article from a ticket.
+      operationId: ArticleDelete
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The article was successfully deleted.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /clientregistrations:
+    get:
+      summary: Search for client registrations
+      description: Retrieves a list of client registrations.
+      operationId: ClientRegistrationSearch
+      tags:
+        - Client Registrations
+      responses:
+        '200':
+          description: A list of client registrations.
+        '401':
+          description: Unauthorized.
+  /clientregistrations/{ClientID}:
+    get:
+      summary: Get a specific client registration
+      description: Retrieves the details of a specific client registration.
+      operationId: ClientRegistrationGet
+      tags:
+        - Client Registrations
+      parameters:
+        - name: ClientID
+          in: path
+          required: true
+          description: The unique identifier of the client.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Client registration details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/history:
+    get:
+      summary: Get configuration item history
+      description: Retrieves the history of a specific configuration item.
+      operationId: ConfigItemHistorySearch
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of history entries.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/history/{HistoryID}:
+    get:
+      summary: Get a specific configuration item history entry
+      description: Retrieves a specific history entry for a configuration item.
+      operationId: ConfigItemHistoryGet
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+        - name: HistoryID
+          in: path
+          required: true
+          description: The ID of the history entry.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: History entry details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/images:
+    get:
+      summary: Get configuration item images
+      description: Retrieves a list of images for a specific configuration item.
+      operationId: ConfigItemImageSearch
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of images.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/images/{ImageID}:
+    get:
+      summary: Get a configuration item image
+      description: Retrieves a specific image for a configuration item.
+      operationId: ConfigItemImageGet
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+        - name: ImageID
+          in: path
+          required: true
+          description: The ID of the image.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/versions:
+    get:
+      summary: Get configuration item versions
+      description: Retrieves a list of versions for a specific configuration item.
+      operationId: ConfigItemVersionSearch
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of versions.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/versions/{VersionID}:
+    get:
+      summary: Get a specific configuration item version
+      description: Retrieves a specific version for a configuration item.
+      operationId: ConfigItemVersionGet
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+        - name: VersionID
+          in: path
+          required: true
+          description: The ID of the version.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Version details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /cmdb/configitems/{ConfigItemID}/versions/{VersionID}/attachments/{AttachmentID}:
+    get:
+      summary: Get a configuration item version attachment
+      description: Retrieves a specific attachment for a configuration item version.
+      operationId: ConfigItemAttachmentGet
+      tags:
+        - CMDB
+      parameters:
+        - name: ConfigItemID
+          in: path
+          required: true
+          description: The ID of the configuration item.
+          schema:
+            type: string
+        - name: VersionID
+          in: path
+          required: true
+          description: The ID of the version.
+          schema:
+            type: string
+        - name: AttachmentID
+          in: path
+          required: true
+          description: The ID of the attachment.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Attachment details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/keywords:
+    get:
+      summary: Search for FAQ article keywords
+      description: Retrieves a list of keywords from all FAQ articles.
+      operationId: FAQArticleKeywordSearch
+      tags:
+        - FAQ
+      responses:
+        '200':
+          description: A list of keywords.
+        '401':
+          description: Unauthorized.
+  /faq/articles/{FAQArticleID}/attachments:
+    get:
+      summary: Get FAQ article attachments
+      description: Retrieves a list of attachments for a specific FAQ article.
+      operationId: FAQArticleAttachmentSearch
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of attachments.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/attachments/{FAQAttachmentID}:
+    get:
+      summary: Get a specific FAQ article attachment
+      description: Retrieves a specific attachment for an FAQ article.
+      operationId: FAQArticleAttachmentGet
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+        - name: FAQAttachmentID
+          in: path
+          required: true
+          description: The ID of the attachment.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Attachment details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/history:
+    get:
+      summary: Get FAQ article history
+      description: Retrieves the history of a specific FAQ article.
+      operationId: FAQArticleHistorySearch
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of history entries.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/history/{FAQHistoryID}:
+    get:
+      summary: Get a specific FAQ article history entry
+      description: Retrieves a specific history entry for an FAQ article.
+      operationId: FAQArticleHistoryGet
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+        - name: FAQHistoryID
+          in: path
+          required: true
+          description: The ID of the history entry.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: History entry details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/votes:
+    get:
+      summary: Get votes for an FAQ article
+      description: Retrieves a list of votes for a specific FAQ article.
+      operationId: FAQArticleVoteSearch
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of votes.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /faq/articles/{FAQArticleID}/votes/{FAQVoteID}:
+    get:
+      summary: Get a specific vote for an FAQ article
+      description: Retrieves a specific vote for an FAQ article.
+      operationId: FAQArticleVoteGet
+      tags:
+        - FAQ
+      parameters:
+        - name: FAQArticleID
+          in: path
+          required: true
+          description: The ID of the FAQ article.
+          schema:
+            type: string
+        - name: FAQVoteID
+          in: path
+          required: true
+          description: The ID of the vote.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Vote details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /i18n/translations:
+    get:
+      summary: Search for translations
+      description: Retrieves a list of translations.
+      operationId: TranslationSearch
+      tags:
+        - i18n
+      responses:
+        '200':
+          description: A list of translations.
+        '401':
+          description: Unauthorized.
+  /objecttags/taglinks:
+    get:
+      summary: Search for object tag links
+      description: Retrieves a list of object tag links.
+      operationId: ObjectTagLinkSearch
+      tags:
+        - Object Tags
+      responses:
+        '200':
+          description: A list of object tag links.
+        '401':
+          description: Unauthorized.
+  /reporting/datasources:
+    get:
+      summary: Search for reporting data sources
+      description: Retrieves a list of reporting data sources.
+      operationId: ReportingDataSourceSearch
+      tags:
+        - Reporting
+      responses:
+        '200':
+          description: A list of data sources.
+        '401':
+          description: Unauthorized.
+  /reporting/datasources/{DataSource}:
+    get:
+      summary: Get a specific reporting data source
+      description: Retrieves the details of a specific reporting data source.
+      operationId: ReportingDataSourceGet
+      tags:
+        - Reporting
+      parameters:
+        - name: DataSource
+          in: path
+          required: true
+          description: The name of the data source.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data source details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /reporting/outputformats:
+    get:
+      summary: Search for reporting output formats
+      description: Retrieves a list of reporting output formats.
+      operationId: ReportingOutputFormatSearch
+      tags:
+        - Reporting
+      responses:
+        '200':
+          description: A list of output formats.
+        '401':
+          description: Unauthorized.
+  /reporting/outputformats/{OutputFormat}:
+    get:
+      summary: Get a specific reporting output format
+      description: Retrieves the details of a specific reporting output format.
+      operationId: ReportingOutputFormatGet
+      tags:
+        - Reporting
+      parameters:
+        - name: OutputFormat
+          in: path
+          required: true
+          description: The name of the output format.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Output format details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /reporting/reports/{ReportID}/results/{ReportResultID}:
+    get:
+      summary: Get a specific report result
+      description: Retrieves a specific result for a report.
+      operationId: ReportResultGet
+      tags:
+        - Reporting
+      parameters:
+        - name: ReportID
+          in: path
+          required: true
+          description: The ID of the report.
+          schema:
+            type: string
+        - name: ReportResultID
+          in: path
+          required: true
+          description: The ID of the result.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report result details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /session/user:
+    get:
+      summary: Get current session user
+      description: Retrieves the details of the currently authenticated user.
+      operationId: SessionUserGet
+      tags:
+        - Session
+      responses:
+        '200':
+          description: User details.
+        '401':
+          description: Unauthorized.
+    patch:
+      summary: Update current session user
+      description: Updates the details of the currently authenticated user.
+      operationId: SessionUserUpdate
+      tags:
+        - Session
+      responses:
+        '200':
+          description: The user was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /session/user/counters:
+    get:
+      summary: Get user counters
+      description: Retrieves counters for the current user.
+      operationId: SessionUserCountersGet
+      tags:
+        - Session
+      responses:
+        '200':
+          description: A list of counters.
+        '401':
+          description: Unauthorized.
+  /session/user/preferences:
+    get:
+      summary: Get user preferences
+      description: Retrieves the preferences for the current user.
+      operationId: SessionUserPreferenceSearch
+      tags:
+        - Session
+      responses:
+        '200':
+          description: A list of preferences.
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a user preference
+      description: Creates a new preference for the current user.
+      operationId: SessionUserPreferenceCreate
+      tags:
+        - Session
+      responses:
+        '201':
+          description: The preference was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /session/user/preferences/{UserPreferenceID}:
+    get:
+      summary: Get a specific user preference
+      description: Retrieves a specific preference for the current user.
+      operationId: SessionUserPreferenceGet
+      tags:
+        - Session
+      parameters:
+        - name: UserPreferenceID
+          in: path
+          required: true
+          description: The ID of the user preference.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Preference details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a user preference
+      description: Updates a specific preference for the current user.
+      operationId: SessionUserPreferenceUpdate
+      tags:
+        - Session
+      parameters:
+        - name: UserPreferenceID
+          in: path
+          required: true
+          description: The ID of the user preference to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The preference was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /session/user/roleids:
+    get:
+      summary: Get user role IDs
+      description: Retrieves the role IDs for the current user.
+      operationId: SessionUserRoleIDSearch
+      tags:
+        - Session
+      responses:
+        '200':
+          description: A list of role IDs.
+        '401':
+          description: Unauthorized.
+  /session/user/tickets:
+    get:
+      summary: Get user tickets
+      description: Retrieves the tickets for the current user.
+      operationId: SessionUserTicketsGet
+      tags:
+        - Session
+      responses:
+        '200':
+          description: A list of tickets.
+        '401':
+          description: Unauthorized.
+  /system/automation/execplans/types:
+    get:
+      summary: Get execution plan types
+      description: Retrieves a list of execution plan types.
+      operationId: ExecPlanTypeSearch
+      tags:
+        - System - Automation
+      responses:
+        '200':
+          description: A list of execution plan types.
+        '401':
+          description: Unauthorized.
+  /system/automation/execplans/types/{ExecPlanType}:
+    get:
+      summary: Get a specific execution plan type
+      description: Retrieves the details of a specific execution plan type.
+      operationId: ExecPlanTypeGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: ExecPlanType
+          in: path
+          required: true
+          description: The name of the execution plan type.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Execution plan type details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/types:
+    get:
+      summary: Get automation job types
+      description: Retrieves a list of automation job types.
+      operationId: JobTypeSearch
+      tags:
+        - System - Automation
+      responses:
+        '200':
+          description: A list of job types.
+        '401':
+          description: Unauthorized.
+  /system/automation/jobs/{JobID}/execplanids:
+    get:
+      summary: Get execution plan IDs for a job
+      description: Retrieves the execution plan IDs for a specific automation job.
+      operationId: JobExecPlanIDSearch
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of execution plan IDs.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add an execution plan to a job
+      description: Adds an execution plan to a specific automation job.
+      operationId: JobExecPlanIDCreate
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The execution plan was successfully added to the job.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/{JobID}/macroids:
+    get:
+      summary: Get macro IDs for a job
+      description: Retrieves the macro IDs for a specific automation job.
+      operationId: JobMacroIDSearch
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of macro IDs.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add a macro to a job
+      description: Adds a macro to a specific automation job.
+      operationId: JobMacroIDCreate
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The macro was successfully added to the job.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/{JobID}/runs:
+    get:
+      summary: Get job runs
+      description: Retrieves the runs for a specific automation job.
+      operationId: JobRunSearch
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of job runs.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/{JobID}/runs/{RunID}:
+    get:
+      summary: Get a specific job run
+      description: Retrieves a specific run for an automation job.
+      operationId: JobRunGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+        - name: RunID
+          in: path
+          required: true
+          description: The ID of the job run.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job run details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/jobs/{JobID}/runs/{RunID}/logs:
+    get:
+      summary: Get job run logs
+      description: Retrieves the logs for a specific job run.
+      operationId: JobRunLogSearch
+      tags:
+        - System - Automation
+      parameters:
+        - name: JobID
+          in: path
+          required: true
+          description: The ID of the automation job.
+          schema:
+            type: string
+        - name: RunID
+          in: path
+          required: true
+          description: The ID of the job run.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of log entries.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros/types/{MacroType}/actiontypes:
+    get:
+      summary: Get macro action types
+      description: Retrieves a list of action types for a specific macro type.
+      operationId: MacroActionTypeSearch
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroType
+          in: path
+          required: true
+          description: The name of the macro type.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of action types.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros/types/{MacroType}/actiontypes/{MacroActionType}:
+    get:
+      summary: Get a specific macro action type
+      description: Retrieves the details of a specific macro action type.
+      operationId: MacroActionTypeGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroType
+          in: path
+          required: true
+          description: The name of the macro type.
+          schema:
+            type: string
+        - name: MacroActionType
+          in: path
+          required: true
+          description: The name of the macro action type.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Macro action type details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros/{MacroID}/actions:
+    get:
+      summary: Get macro actions
+      description: Retrieves the actions for a specific macro.
+      operationId: MacroActionSearch
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The ID of the macro.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of macro actions.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Create a macro action
+      description: Creates a new action for a specific macro.
+      operationId: MacroActionCreate
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The ID of the macro.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The action was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/automation/macros/{MacroID}/actions/{MacroActionID}:
+    get:
+      summary: Get a specific macro action
+      description: Retrieves a specific action for a macro.
+      operationId: MacroActionGet
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The ID of the macro.
+          schema:
+            type: string
+        - name: MacroActionID
+          in: path
+          required: true
+          description: The ID of the action.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Macro action details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a macro action
+      description: Updates a specific action for a macro.
+      operationId: MacroActionUpdate
+      tags:
+        - System - Automation
+      parameters:
+        - name: MacroID
+          in: path
+          required: true
+          description: The ID of the macro.
+          schema:
+            type: string
+        - name: MacroActionID
+          in: path
+          required: true
+          description: The ID of the action to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The action was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/cmdb/classes:
+    get:
+      summary: Search for CMDB classes
+      description: Retrieves a list of CMDB classes.
+      operationId: ClassSearch
+      tags:
+        - System - CMDB
+      responses:
+        '200':
+          description: A list of CMDB classes.
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new CMDB class
+      description: Creates a new CMDB class.
+      operationId: ClassCreate
+      tags:
+        - System - CMDB
+      responses:
+        '201':
+          description: The CMDB class was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/cmdb/classes/{ClassID}:
+    get:
+      summary: Get a specific CMDB class
+      description: Retrieves the details of a specific CMDB class.
+      operationId: ClassGet
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: CMDB class details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a CMDB class
+      description: Updates an existing CMDB class.
+      operationId: ClassUpdate
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The CMDB class was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/cmdb/classes/{ClassID}/definitions:
+    get:
+      summary: Get CMDB class definitions
+      description: Retrieves the definitions for a specific CMDB class.
+      operationId: ClassDefinitionSearch
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of CMDB class definitions.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Create a new CMDB class definition
+      description: Creates a new definition for a specific CMDB class.
+      operationId: ClassDefinitionCreate
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The CMDB class definition was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/cmdb/classes/{ClassID}/definitions/{DefinitionID}:
+    get:
+      summary: Get a specific CMDB class definition
+      description: Retrieves a specific definition for a CMDB class.
+      operationId: ClassDefinitionGet
+      tags:
+        - System - CMDB
+      parameters:
+        - name: ClassID
+          in: path
+          required: true
+          description: The ID of the CMDB class.
+          schema:
+            type: string
+        - name: DefinitionID
+          in: path
+          required: true
+          description: The ID of the definition.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: CMDB class definition details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/communication/mailaccounts/types:
+    get:
+      summary: Get mail account types
+      description: Retrieves a list of mail account types.
+      operationId: MailAccountTypeSearch
+      tags:
+        - System - Communication
+      responses:
+        '200':
+          description: A list of mail account types.
+        '401':
+          description: Unauthorized.
+  /system/config/definitions/{Option}:
+    get:
+      summary: Get a system configuration option definition
+      description: Retrieves a specific system configuration option definition.
+      operationId: SysConfigOptionDefinitionGet
+      tags:
+        - System - Configuration
+      parameters:
+        - name: Option
+          in: path
+          required: true
+          description: The name of the configuration option definition.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Configuration option definition details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a system configuration option definition
+      description: Updates a specific system configuration option definition.
+      operationId: SysConfigOptionDefinitionUpdate
+      tags:
+        - System - Configuration
+      parameters:
+        - name: Option
+          in: path
+          required: true
+          description: The name of the configuration option definition to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The configuration option definition was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/console/files:
+    get:
+      summary: Search for console files
+      description: Retrieves a list of console files.
+      operationId: ConsoleFileSearch
+      tags:
+        - System - Console
+      responses:
+        '200':
+          description: A list of console files.
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new console file
+      description: Creates a new console file.
+      operationId: ConsoleFileCreate
+      tags:
+        - System - Console
+      responses:
+        '201':
+          description: The file was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/dynamicfields/{DynamicFieldID}/config:
+    get:
+      summary: Get dynamic field configuration
+      description: Retrieves the configuration for a specific dynamic field.
+      operationId: DynamicFieldConfigGet
+      tags:
+        - System - Dynamic Fields
+      parameters:
+        - name: DynamicFieldID
+          in: path
+          required: true
+          description: The ID of the dynamic field.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dynamic field configuration details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update dynamic field configuration
+      description: Updates the configuration for a specific dynamic field.
+      operationId: DynamicFieldConfigUpdate
+      tags:
+        - System - Dynamic Fields
+      parameters:
+        - name: DynamicFieldID
+          in: path
+          required: true
+          description: The ID of the dynamic field to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The dynamic field configuration was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/faq/categories:
+    get:
+      summary: Search for FAQ categories
+      description: Retrieves a list of FAQ categories.
+      operationId: FAQCategorySearch
+      tags:
+        - System - FAQ
+      responses:
+        '200':
+          description: A list of FAQ categories.
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new FAQ category
+      description: Creates a new FAQ category.
+      operationId: FAQCategoryCreate
+      tags:
+        - System - FAQ
+      responses:
+        '201':
+          description: The FAQ category was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/faq/categories/{FAQCategoryID}:
+    get:
+      summary: Get a specific FAQ category
+      description: Retrieves the details of a specific FAQ category.
+      operationId: FAQCategoryGet
+      tags:
+        - System - FAQ
+      parameters:
+        - name: FAQCategoryID
+          in: path
+          required: true
+          description: The ID of the FAQ category.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: FAQ category details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an FAQ category
+      description: Updates an existing FAQ category.
+      operationId: FAQCategoryUpdate
+      tags:
+        - System - FAQ
+      parameters:
+        - name: FAQCategoryID
+          in: path
+          required: true
+          description: The ID of the FAQ category to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The FAQ category was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/htmltopdf/convert:
+    get:
+      summary: Convert HTML to PDF
+      description: Converts an HTML template to a PDF document.
+      operationId: HTMLToPDFTemplateConvert
+      tags:
+        - System - Utilities
+      responses:
+        '200':
+          description: The PDF document was successfully generated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/i18n/translations/{PatternID}/languages:
+    post:
+      summary: Create a translation for a language
+      description: Creates a new translation for a given language and pattern.
+      operationId: TranslationLanguageCreate
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The ID of the translation pattern.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The translation was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/i18n/translations/{PatternID}/languages/{Language}:
+    get:
+      summary: Get a specific translation for a language
+      description: Retrieves a specific translation for a given language and pattern.
+      operationId: TranslationLanguageGet
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The ID of the translation pattern.
+          schema:
+            type: string
+        - name: Language
+          in: path
+          required: true
+          description: The language code (e.g., 'en', 'de').
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Translation details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a translation for a language
+      description: Updates a specific translation for a given language and pattern.
+      operationId: TranslationLanguageUpdate
+      tags:
+        - System - i18n
+      parameters:
+        - name: PatternID
+          in: path
+          required: true
+          description: The ID of the translation pattern.
+          schema:
+            type: string
+        - name: Language
+          in: path
+          required: true
+          description: The language code to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The translation was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/importexport/templates:
+    get:
+      summary: Search for import/export templates
+      description: Retrieves a list of import/export templates.
+      operationId: ImportExportTemplateSearch
+      tags:
+        - System - Import/Export
+      responses:
+        '200':
+          description: A list of templates.
+        '401':
+          description: Unauthorized.
+  /system/importexport/templates/{TemplateID}:
+    get:
+      summary: Get a specific import/export template
+      description: Retrieves the details of a specific import/export template.
+      operationId: ImportExportTemplateGet
+      tags:
+        - System - Import/Export
+      parameters:
+        - name: TemplateID
+          in: path
+          required: true
+          description: The ID of the template.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Template details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/importexport/templates/{TemplateID}/runs:
+    get:
+      summary: Get import/export template runs
+      description: Retrieves the runs for a specific import/export template.
+      operationId: ImportExportTemplateRunSearch
+      tags:
+        - System - Import/Export
+      parameters:
+        - name: TemplateID
+          in: path
+          required: true
+          description: The ID of the template.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of template runs.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Create a new import/export template run
+      description: Creates a new run for a specific import/export template.
+      operationId: ImportExportTemplateRunCreate
+      tags:
+        - System - Import/Export
+      parameters:
+        - name: TemplateID
+          in: path
+          required: true
+          description: The ID of the template.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The template run was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/logs:
+    get:
+      summary: Search for log files
+      description: Retrieves a list of log files.
+      operationId: LogFileSearch
+      tags:
+        - System - Logs
+      responses:
+        '200':
+          description: A list of log files.
+        '401':
+          description: Unauthorized.
+  /system/logs/{LogFileID}:
+    get:
+      summary: Get a specific log file
+      description: Retrieves the contents of a specific log file.
+      operationId: LogFileGet
+      tags:
+        - System - Logs
+      parameters:
+        - name: LogFileID
+          in: path
+          required: true
+          description: The ID of the log file.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Log file content.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/migration:
+    get:
+      summary: Search for migrations
+      description: Retrieves a list of migrations.
+      operationId: MigrationSearch
+      tags:
+        - System - Migration
+      responses:
+        '200':
+          description: A list of migrations.
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new migration
+      description: Creates a new migration.
+      operationId: MigrationCreate
+      tags:
+        - System - Migration
+      responses:
+        '201':
+          description: The migration was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/migration/{MigrationID}:
+    get:
+      summary: Get a specific migration
+      description: Retrieves the details of a specific migration.
+      operationId: MigrationGet
+      tags:
+        - System - Migration
+      parameters:
+        - name: MigrationID
+          in: path
+          required: true
+          description: The ID of the migration.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Migration details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/oauth2/profiles:
+    get:
+      summary: Search for OAuth2 profiles
+      description: Retrieves a list of OAuth2 profiles.
+      operationId: ProfileSearch
+      tags:
+        - System - OAuth2
+      responses:
+        '200':
+          description: A list of OAuth2 profiles.
+        '401':
+          description: Unauthorized.
+    post:
+      summary: Create a new OAuth2 profile
+      description: Creates a new OAuth2 profile.
+      operationId: ProfileCreate
+      tags:
+        - System - OAuth2
+      responses:
+        '201':
+          description: The OAuth2 profile was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/oauth2/profiles/{ProfileID}:
+    get:
+      summary: Get a specific OAuth2 profile
+      description: Retrieves the details of a specific OAuth2 profile.
+      operationId: ProfileGet
+      tags:
+        - System - OAuth2
+      parameters:
+        - name: ProfileID
+          in: path
+          required: true
+          description: The ID of the OAuth2 profile.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OAuth2 profile details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update an OAuth2 profile
+      description: Updates an existing OAuth2 profile.
+      operationId: ProfileUpdate
+      tags:
+        - System - OAuth2
+      parameters:
+        - name: ProfileID
+          in: path
+          required: true
+          description: The ID of the OAuth2 profile to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The OAuth2 profile was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/oauth2/profiles/{ProfileID}/authurl:
+    get:
+      summary: Get OAuth2 authorization URL
+      description: Retrieves the authorization URL for a specific OAuth2 profile.
+      operationId: ProfileGetAuthURL
+      tags:
+        - System - OAuth2
+      parameters:
+        - name: ProfileID
+          in: path
+          required: true
+          description: The ID of the OAuth2 profile.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The authorization URL.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/oauth2/authcode:
+    post:
+      summary: Process OAuth2 authorization code
+      description: Processes the OAuth2 authorization code to obtain an access token.
+      operationId: AuthCodeProcess
+      tags:
+        - System - OAuth2
+      responses:
+        '200':
+          description: The authorization code was successfully processed.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+  /system/roles/permissiontypes:
+    get:
+      summary: Get permission types
+      description: Retrieves a list of permission types.
+      operationId: PermissionTypeSearch
+      tags:
+        - System - Roles & Permissions
+      responses:
+        '200':
+          description: A list of permission types.
+        '401':
+          description: Unauthorized.
+  /system/sessions/{Token}:
+    get:
+      summary: Get a specific session
+      description: Retrieves the details of a specific session by its token.
+      operationId: SessionGetByToken
+      tags:
+        - System - Sessions
+      parameters:
+        - name: Token
+          in: path
+          required: true
+          description: The token of the session.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/textmodules/categories:
+    get:
+      summary: Get text module categories
+      description: Retrieves a list of text module categories.
+      operationId: TextModuleCategorySearch
+      tags:
+        - System - Text Modules
+      responses:
+        '200':
+          description: A list of text module categories.
+        '401':
+          description: Unauthorized.
+  /system/ticket/queues/followuptypes:
+    get:
+      summary: Get queue follow-up types
+      description: Retrieves a list of follow-up types for queues.
+      operationId: QueueFollowUpTypeSearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of follow-up types.
+        '401':
+          description: Unauthorized.
+  /system/ticket/states/types:
+    get:
+      summary: Get ticket state types
+      description: Retrieves a list of ticket state types.
+      operationId: StateTypeSearch
+      tags:
+        - System - Ticket Settings
+      responses:
+        '200':
+          description: A list of state types.
+        '401':
+          description: Unauthorized.
+  /system/ticket/states/types/{StateTypeID}:
+    get:
+      summary: Get a specific ticket state type
+      description: Retrieves the details of a specific ticket state type.
+      operationId: StateTypeGet
+      tags:
+        - System - Ticket Settings
+      parameters:
+        - name: StateTypeID
+          in: path
+          required: true
+          description: The ID of the state type.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: State type details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/users/{UserID}/preferences:
+    get:
+      summary: Get user preferences
+      description: Retrieves the preferences for a specific user.
+      operationId: UserPreferenceSearch
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of preferences.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Create a user preference
+      description: Creates a new preference for a specific user.
+      operationId: UserPreferenceCreate
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The preference was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/users/{UserID}/preferences/{UserPreferenceID}:
+    get:
+      summary: Get a specific user preference
+      description: Retrieves a specific preference for a user.
+      operationId: UserPreferenceGet
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+        - name: UserPreferenceID
+          in: path
+          required: true
+          description: The ID of the user preference.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Preference details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a user preference
+      description: Updates a specific preference for a user.
+      operationId: UserPreferenceUpdate
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+        - name: UserPreferenceID
+          in: path
+          required: true
+          description: The ID of the user preference to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The preference was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /system/users/{UserID}/roleids:
+    get:
+      summary: Get role IDs for a user
+      description: Retrieves the role IDs for a specific user.
+      operationId: UserRoleIDSearch
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of role IDs.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add a role to a user
+      description: Adds a role to a specific user.
+      operationId: UserRoleIDCreate
+      tags:
+        - System - Users
+      parameters:
+        - name: UserID
+          in: path
+          required: true
+          description: The ID of the user.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The role was successfully added to the user.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}:
+    get:
+      summary: Get a specific ticket
+      description: Retrieves the details of a specific ticket.
+      operationId: TicketGet
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The unique identifier of the ticket.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ticket details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles:
+    get:
+      summary: Search for ticket articles
+      description: Retrieves a list of articles for a specific ticket.
+      operationId: ArticleSearch
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of articles.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Create a new ticket article
+      description: Creates a new article for a specific ticket.
+      operationId: ArticleCreate
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The article was successfully created.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}:
+    get:
+      summary: Get a specific ticket article
+      description: Retrieves a specific article for a ticket.
+      operationId: ArticleGet
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Article details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a ticket article
+      description: Updates a specific article for a ticket.
+      operationId: ArticleUpdate
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The article was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}/attachments:
+    get:
+      summary: Get ticket article attachments
+      description: Retrieves a list of attachments for a specific ticket article.
+      operationId: ArticleAttachmentSearch
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of attachments.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add an attachment to a ticket article
+      description: Adds a new attachment to a specific ticket article.
+      operationId: ArticleAttachmentCreate
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The attachment was successfully added.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}/attachments/{AttachmentID}:
+    get:
+      summary: Get a specific ticket article attachment
+      description: Retrieves a specific attachment for a ticket article.
+      operationId: ArticleAttachmentGet
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+        - name: AttachmentID
+          in: path
+          required: true
+          description: The ID of the attachment.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Attachment details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}/attachments/zip:
+    get:
+      summary: Get ticket article attachments as a zip file
+      description: Retrieves all attachments for a specific ticket article as a zip file.
+      operationId: ArticleAttachmentZipGet
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A zip file containing the attachments.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}/flags:
+    get:
+      summary: Get ticket article flags
+      description: Retrieves the flags for a specific ticket article.
+      operationId: ArticleFlagSearch
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of flags.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    post:
+      summary: Add a flag to a ticket article
+      description: Adds a new flag to a specific ticket article.
+      operationId: ArticleFlagCreate
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: The flag was successfully added.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/articles/{ArticleID}/flags/{FlagName}:
+    get:
+      summary: Get a specific ticket article flag
+      description: Retrieves a specific flag for a ticket article.
+      operationId: ArticleFlagGet
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+        - name: FlagName
+          in: path
+          required: true
+          description: The name of the flag.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Flag details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+    patch:
+      summary: Update a ticket article flag
+      description: Updates a specific flag for a ticket article.
+      operationId: ArticleFlagUpdate
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: ArticleID
+          in: path
+          required: true
+          description: The ID of the article.
+          schema:
+            type: string
+        - name: FlagName
+          in: path
+          required: true
+          description: The name of the flag to update.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The flag was successfully updated.
+        '400':
+          description: Bad Request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/history:
+    get:
+      summary: Get ticket history
+      description: Retrieves the history of a specific ticket.
+      operationId: HistorySearch
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of history entries.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /tickets/{TicketID}/history/{HistoryID}:
+    get:
+      summary: Get a specific ticket history entry
+      description: Retrieves a specific history entry for a ticket.
+      operationId: HistoryGet
+      tags:
+        - Tickets
+      parameters:
+        - name: TicketID
+          in: path
+          required: true
+          description: The ID of the ticket.
+          schema:
+            type: string
+        - name: HistoryID
+          in: path
+          required: true
+          description: The ID of the history entry.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: History entry details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
+  /virtualfs/{Token}:
+    get:
+      summary: Get a virtual file system
+      description: Retrieves a virtual file system by its token.
+      operationId: VirtualFSGet
+      tags:
+        - Virtual FS
+      parameters:
+        - name: Token
+          in: path
+          required: true
+          description: The token of the virtual file system.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Virtual file system details.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not Found.
 components:
   schemas:
     Ticket:
