@@ -1,2 +1,5 @@
+KIX API Endpoint documentation
 
- https://krixoko-org.github.io/kix-doku/
+created by AI
+
+https://krixoko-org.github.io/kix-doku/
