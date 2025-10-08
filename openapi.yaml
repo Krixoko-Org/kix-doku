@@ -144,18 +144,19 @@ components:
       type: object
     Credentials:
       properties:
-        OTP:
-          description: The one-time password, if two-factor authentication is enabled.
+        UserLogin:
+          description: The username for authentication.
+          type: string
+        UserType:
+          description: The type of user.
           type: string
         Password:
           description: The user's password.
           format: password
           type: string
-        User:
-          description: The username for authentication.
-          type: string
       required:
-      - User
+      - UserLogin
+      - UserType
       - Password
       type: object
     DynamicField:
@@ -1036,9 +1037,9 @@ paths:
         content:
           application/json:
             example:
-              OTP: '123456'
-              Password: password
-              User: testuser
+              UserLogin: root@localhost
+              UserType: Agent
+              Password: root
             schema:
               $ref: '#/components/schemas/Credentials'
         description: User credentials for authentication.
