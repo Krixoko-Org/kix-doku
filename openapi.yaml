@@ -998,6 +998,945 @@ components:
       - ObjectID
       - ObjectType
       type: object
+    AuthRequest:
+      type: object
+      properties: {}
+    AuthResponse:
+      type: object
+      properties: {}
+    CertificateResponse:
+      type: object
+      properties: {}
+    CertificateCollectionResponse:
+      type: object
+      properties: {}
+    CertificatePostRequest:
+      type: object
+      properties: {}
+    CertificatePostResponse:
+      type: object
+      properties: {}
+    ChannelResponse:
+      type: object
+      properties: {}
+    ChannelCollectionResponse:
+      type: object
+      properties: {}
+    ClientRegistrationResponse:
+      type: object
+      properties: {}
+    ClientRegistrationCollectionResponse:
+      type: object
+      properties: {}
+    ClientRegistrationPostRequest:
+      type: object
+      properties: {}
+    ClientRegistrationPostResponse:
+      type: object
+      properties: {}
+    ConfigItemClassResponse:
+      type: object
+      properties: {}
+    ConfigItemClassCollectionResponse:
+      type: object
+      properties: {}
+    ConfigItemClassPostRequest:
+      type: object
+      properties: {}
+    ConfigItemClassPatchRequest:
+      type: object
+      properties: {}
+    ConfigItemClassPostPatchResponse:
+      type: object
+      properties: {}
+    ConfigItemClassDefinitionResponse:
+      type: object
+      properties: {}
+    ConfigItemClassDefinitionCollectionResponse:
+      type: object
+      properties: {}
+    ConfigItemClassDefinitionPostRequest:
+      type: object
+      properties: {}
+    ConfigItemClassDefinitionPostResponse:
+      type: object
+      properties: {}
+    ConfigItemResponse:
+      type: object
+      properties: {}
+    ConfigItemCollectionResponse:
+      type: object
+      properties: {}
+    ConfigItemPostRequest:
+      type: object
+      properties: {}
+    ConfigItemPatchRequest:
+      type: object
+      properties: {}
+    ConfigItemPostPatchResponse:
+      type: object
+      properties: {}
+    ConfigItemAttachmentResponse:
+      type: object
+      properties: {}
+    ConfigItemHistoryResponse:
+      type: object
+      properties: {}
+    ConfigItemHistoryCollectionResponse:
+      type: object
+      properties: {}
+    ConfigItemImageResponse:
+      type: object
+      properties: {}
+    ConfigItemImageCollectionResponse:
+      type: object
+      properties: {}
+    ConfigItemImagePostRequest:
+      type: object
+      properties: {}
+    ConfigItemImagePostResponse:
+      type: object
+      properties: {}
+    ConfigItemLinkGraphPostRequest:
+      type: object
+      properties: {}
+    ConfigItemLinkGraphPostResponse:
+      type: object
+      properties: {}
+    ConfigItemVersionResponse:
+      type: object
+      properties: {}
+    ConfigItemVersionCollectionResponse:
+      type: object
+      properties: {}
+    ConfigItemVersionPostRequest:
+      type: object
+      properties: {}
+    ConfigItemVersionPostResponse:
+      type: object
+      properties: {}
+    ConsoleCommandResponse:
+      type: object
+      properties: {}
+    ConsoleCommandCollectionResponse:
+      type: object
+      properties: {}
+    ConsoleCommandPostRequest:
+      type: object
+      properties: {}
+    ConsoleCommandPostResponse:
+      type: object
+      properties: {}
+    ConsoleFileResponse:
+      type: object
+      properties: {}
+    ConsoleFileCollectionResponse:
+      type: object
+      properties: {}
+    ConsoleFilePostRequest:
+      type: object
+      properties: {}
+    ConsoleFilePostResponse:
+      type: object
+      properties: {}
+    ContactResponse:
+      type: object
+      properties: {}
+    ContactCollectionResponse:
+      type: object
+      properties: {}
+    ContactPostRequest:
+      type: object
+      properties: {}
+    ContactPatchRequest:
+      type: object
+      properties: {}
+    ContactPostPatchResponse:
+      type: object
+      properties: {}
+    CounterResponse:
+      type: object
+      properties: {}
+    DataSourceResponse:
+      type: object
+      properties: {}
+    DataSourceCollectionResponse:
+      type: object
+      properties: {}
+    DynamicFieldResponse:
+      type: object
+      properties: {}
+    DynamicFieldCollectionResponse:
+      type: object
+      properties: {}
+    DynamicFieldPostRequest:
+      type: object
+      properties: {}
+    DynamicFieldPatchRequest:
+      type: object
+      properties: {}
+    DynamicFieldPostPatchResponse:
+      type: object
+      properties: {}
+    DynamicFieldConfigResponse:
+      type: object
+      properties: {}
+    DynamicFieldConfigPatchRequest:
+      type: object
+      properties: {}
+    DynamicFieldConfigPatchResponse:
+      type: object
+      properties: {}
+    DynamicFieldObjectTypeCollectionResponse:
+      type: object
+      properties: {}
+    DynamicFieldTypeCollectionResponse:
+      type: object
+      properties: {}
+    Error:
+      type: object
+      properties: {}
+    ExecPlanResponse:
+      type: object
+      properties: {}
+    ExecPlanCollectionResponse:
+      type: object
+      properties: {}
+    ExecPlanPostRequest:
+      type: object
+      properties: {}
+    ExecPlanPatchRequest:
+      type: object
+      properties: {}
+    ExecPlanPostPatchResponse:
+      type: object
+      properties: {}
+    ExecPlanTypeResponse:
+      type: object
+      properties: {}
+    ExecPlanTypeCollectionResponse:
+      type: object
+      properties: {}
+    FAQArticleResponse:
+      type: object
+      properties: {}
+    FAQArticleCollectionResponse:
+      type: object
+      properties: {}
+    FAQArticlePostRequest:
+      type: object
+      properties: {}
+    FAQArticlePatchRequest:
+      type: object
+      properties: {}
+    FAQArticlePostPatchResponse:
+      type: object
+      properties: {}
+    FAQAttachmentResponse:
+      type: object
+      properties: {}
+    FAQAttachmentCollectionResponse:
+      type: object
+      properties: {}
+    FAQAttachmentPostRequest:
+      type: object
+      properties: {}
+    FAQAttachmentPostPatchResponse:
+      type: object
+      properties: {}
+    FAQCategoryResponse:
+      type: object
+      properties: {}
+    FAQCategoryCollectionResponse:
+      type: object
+      properties: {}
+    FAQCategoryPostRequest:
+      type: object
+      properties: {}
+    FAQCategoryPatchRequest:
+      type: object
+      properties: {}
+    FAQCategoryPostPatchResponse:
+      type: object
+      properties: {}
+    FAQHistoryResponse:
+      type: object
+      properties: {}
+    FAQHistoryCollectionResponse:
+      type: object
+      properties: {}
+    FAQVoteResponse:
+      type: object
+      properties: {}
+    FAQVoteCollectionResponse:
+      type: object
+      properties: {}
+    FAQVotePostRequest:
+      type: object
+      properties: {}
+    FAQVotePostPatchResponse:
+      type: object
+      properties: {}
+    FAQKeywordCollectionResponse:
+      type: object
+      properties: {}
+    FollowUpTypeCollectionResponse:
+      type: object
+      properties: {}
+    GeneralCatalogClassCollectionResponse:
+      type: object
+      properties: {}
+    GeneralCatalogClassPatchRequest:
+      type: object
+      properties: {}
+    GeneralCatalogClassPatchResponse:
+      type: object
+      properties: {}
+    GeneralCatalogItemResponse:
+      type: object
+      properties: {}
+    GeneralCatalogItemCollectionResponse:
+      type: object
+      properties: {}
+    GeneralCatalogItemPostRequest:
+      type: object
+      properties: {}
+    GeneralCatalogItemPatchRequest:
+      type: object
+      properties: {}
+    GeneralCatalogItemPostPatchResponse:
+      type: object
+      properties: {}
+    HTMLToPDFConvertResponse:
+      type: object
+      properties: {}
+    ImportExportTemplateResponse:
+      type: object
+      properties: {}
+    ImportExportTemplateCollectionResponse:
+      type: object
+      properties: {}
+    ImportExportTemplateRunCollectionResponse:
+      type: object
+      properties: {}
+    ImportExportTemplateRunPostRequest:
+      type: object
+      properties: {}
+    ImportExportTemplateRunPostResponse:
+      type: object
+      properties: {}
+    JobResponse:
+      type: object
+      properties: {}
+    JobCollectionResponse:
+      type: object
+      properties: {}
+    JobPostRequest:
+      type: object
+      properties: {}
+    JobPatchRequest:
+      type: object
+      properties: {}
+    JobPostPatchResponse:
+      type: object
+      properties: {}
+    JobTypeResponse:
+      type: object
+      properties: {}
+    JobExecPlanIDCollectionResponse:
+      type: object
+      properties: {}
+    JobExecPlanIDPostRequest:
+      type: object
+      properties: {}
+    JobExecPlanIDPostResponse:
+      type: object
+      properties: {}
+    JobMacroIDCollectionResponse:
+      type: object
+      properties: {}
+    JobMacroIDPostRequest:
+      type: object
+      properties: {}
+    JobMacroIDPostResponse:
+      type: object
+      properties: {}
+    JobRunResponse:
+      type: object
+      properties: {}
+    JobRunCollectionResponse:
+      type: object
+      properties: {}
+    JobRunLogCollectionResponse:
+      type: object
+      properties: {}
+    LinkResponse:
+      type: object
+      properties: {}
+    LinkCollectionResponse:
+      type: object
+      properties: {}
+    LinkPostRequest:
+      type: object
+      properties: {}
+    LinkPostResponse:
+      type: object
+      properties: {}
+    LinkTypeCollectionResponse:
+      type: object
+      properties: {}
+    LogFileResponse:
+      type: object
+      properties: {}
+    LogFileCollectionResponse:
+      type: object
+      properties: {}
+    LockResponse:
+      type: object
+      properties: {}
+    LockCollectionResponse:
+      type: object
+      properties: {}
+    MacroResponse:
+      type: object
+      properties: {}
+    MacroCollectionResponse:
+      type: object
+      properties: {}
+    MacroPostRequest:
+      type: object
+      properties: {}
+    MacroPatchRequest:
+      type: object
+      properties: {}
+    MacroPostPatchResponse:
+      type: object
+      properties: {}
+    MacroTypeResponse:
+      type: object
+      properties: {}
+    MacroActionResponse:
+      type: object
+      properties: {}
+    MacroActionCollectionResponse:
+      type: object
+      properties: {}
+    MacroActionPostRequest:
+      type: object
+      properties: {}
+    MacroActionPatchRequest:
+      type: object
+      properties: {}
+    MacroActionPostPatchResponse:
+      type: object
+      properties: {}
+    MacroActionTypeResponse:
+      type: object
+      properties: {}
+    MacroActionTypeCollectionResponse:
+      type: object
+      properties: {}
+    MailAccountResponse:
+      type: object
+      properties: {}
+    MailAccountCollectionResponse:
+      type: object
+      properties: {}
+    MailAccountPostRequest:
+      type: object
+      properties: {}
+    MailAccountPatchRequest:
+      type: object
+      properties: {}
+    MailAccountPostPatchResponse:
+      type: object
+      properties: {}
+    MailAccountTypeCollectionResponse:
+      type: object
+      properties: {}
+    MailFilterResponse:
+      type: object
+      properties: {}
+    MailFilterCollectionResponse:
+      type: object
+      properties: {}
+    MailFilterPostRequest:
+      type: object
+      properties: {}
+    MailFilterPatchRequest:
+      type: object
+      properties: {}
+    MailFilterPostPatchResponse:
+      type: object
+      properties: {}
+    MarkObjectAsSeenPostRequest:
+      type: object
+      properties: {}
+    NotificationResponse:
+      type: object
+      properties: {}
+    NotificationCollectionResponse:
+      type: object
+      properties: {}
+    NotificationPostRequest:
+      type: object
+      properties: {}
+    NotificationPatchRequest:
+      type: object
+      properties: {}
+    NotificationPostPatchResponse:
+      type: object
+      properties: {}
+    OAuth2AuthCodePostRequest:
+      type: object
+      properties: {}
+    OAuth2AuthCodePostResponse:
+      type: object
+      properties: {}
+    OAuth2ProfileResponse:
+      type: object
+      properties: {}
+    OAuth2ProfileCollectionResponse:
+      type: object
+      properties: {}
+    OAuth2ProfilePostRequest:
+      type: object
+      properties: {}
+    OAuth2ProfilePatchRequest:
+      type: object
+      properties: {}
+    OAuth2ProfilePostPatchResponse:
+      type: object
+      properties: {}
+    OAuth2ProfileAuthURLResponse:
+      type: object
+      properties: {}
+    ObjectIconResponse:
+      type: object
+      properties: {}
+    ObjectIconCollectionResponse:
+      type: object
+      properties: {}
+    ObjectIconPostRequest:
+      type: object
+      properties: {}
+    ObjectIconPatchRequest:
+      type: object
+      properties: {}
+    ObjectIconPostPatchResponse:
+      type: object
+      properties: {}
+    ObjectSearchSupportedAttributesCollectionResponse:
+      type: object
+      properties: {}
+    ObjectSearchSupportedAttributesResponse:
+      type: object
+      properties: {}
+    OrganisationResponse:
+      type: object
+      properties: {}
+    OrganisationCollectionResponse:
+      type: object
+      properties: {}
+    OrganisationPostRequest:
+      type: object
+      properties: {}
+    OrganisationPatchRequest:
+      type: object
+      properties: {}
+    OrganisationPostPatchResponse:
+      type: object
+      properties: {}
+    OutputFormatResponse:
+      type: object
+      properties: {}
+    OutputFormatCollectionResponse:
+      type: object
+      properties: {}
+    PermissionResponse:
+      type: object
+      properties: {}
+    PermissionCollectionResponse:
+      type: object
+      properties: {}
+    PermissionPostRequest:
+      type: object
+      properties: {}
+    PermissionPatchRequest:
+      type: object
+      properties: {}
+    PermissionPostPatchResponse:
+      type: object
+      properties: {}
+    PermissionTypeCollectionResponse:
+      type: object
+      properties: {}
+    PriorityResponse:
+      type: object
+      properties: {}
+    PriorityCollectionResponse:
+      type: object
+      properties: {}
+    PriorityPostRequest:
+      type: object
+      properties: {}
+    PriorityPatchRequest:
+      type: object
+      properties: {}
+    PriorityPostPatchResponse:
+      type: object
+      properties: {}
+    QueueResponse:
+      type: object
+      properties: {}
+    QueueCollectionResponse:
+      type: object
+      properties: {}
+    QueuePostRequest:
+      type: object
+      properties: {}
+    QueuePatchRequest:
+      type: object
+      properties: {}
+    QueuePostPatchResponse:
+      type: object
+      properties: {}
+    ReportResponse:
+      type: object
+      properties: {}
+    ReportCollectionResponse:
+      type: object
+      properties: {}
+    ReportPostRequest:
+      type: object
+      properties: {}
+    ReportPostResponse:
+      type: object
+      properties: {}
+    ReportDefinitionResponse:
+      type: object
+      properties: {}
+    ReportDefinitionCollectionResponse:
+      type: object
+      properties: {}
+    ReportDefinitionPostRequest:
+      type: object
+      properties: {}
+    ReportDefinitionPatchRequest:
+      type: object
+      properties: {}
+    ReportDefinitionPostPatchResponse:
+      type: object
+      properties: {}
+    ReportResultResponse:
+      type: object
+      properties: {}
+    ReportResultCollectionResponse:
+      type: object
+      properties: {}
+    RoleResponse:
+      type: object
+      properties: {}
+    RoleCollectionResponse:
+      type: object
+      properties: {}
+    RolePostRequest:
+      type: object
+      properties: {}
+    RolePatchRequest:
+      type: object
+      properties: {}
+    RolePostPatchResponse:
+      type: object
+      properties: {}
+    RoleUserIDCollectionResponse:
+      type: object
+      properties: {}
+    RoleUserIDPostRequest:
+      type: object
+      properties: {}
+    RoleUserIDPostResponse:
+      type: object
+      properties: {}
+    SenderTypeResponse:
+      type: object
+      properties: {}
+    SenderTypeCollectionResponse:
+      type: object
+      properties: {}
+    ServiceResponse:
+      type: object
+      properties: {}
+    ServiceCollectionResponse:
+      type: object
+      properties: {}
+    ServicePostRequest:
+      type: object
+      properties: {}
+    ServicePatchRequest:
+      type: object
+      properties: {}
+    ServicePostPatchResponse:
+      type: object
+      properties: {}
+    SessionResponse:
+      type: object
+      properties: {}
+    StateTypeResponse:
+      type: object
+      properties: {}
+    StateTypeCollectionResponse:
+      type: object
+      properties: {}
+    SysConfigOptionResponse:
+      type: object
+      properties: {}
+    SysConfigOptionCollectionResponse:
+      type: object
+      properties: {}
+    SysConfigOptionPatchRequest:
+      type: object
+      properties: {}
+    SysConfigOptionPatchResponse:
+      type: object
+      properties: {}
+    SysConfigOptionDefinitionResponse:
+      type: object
+      properties: {}
+    SysConfigOptionDefinitionCollectionResponse:
+      type: object
+      properties: {}
+    SysConfigOptionDefinitionPostRequest:
+      type: object
+      properties: {}
+    SysConfigOptionDefinitionPatchRequest:
+      type: object
+      properties: {}
+    SysConfigOptionDefinitionPostPatchResponse:
+      type: object
+      properties: {}
+    SysConfigOptionTypeCollectionResponse:
+      type: object
+      properties: {}
+    SystemAddressResponse:
+      type: object
+      properties: {}
+    SystemAddressCollectionResponse:
+      type: object
+      properties: {}
+    SystemAddressPostRequest:
+      type: object
+      properties: {}
+    SystemAddressPatchRequest:
+      type: object
+      properties: {}
+    SystemAddressPostPatchResponse:
+      type: object
+      properties: {}
+    TextModuleResponse:
+      type: object
+      properties: {}
+    TextModuleCollectionResponse:
+      type: object
+      properties: {}
+    TextModulePostRequest:
+      type: object
+      properties: {}
+    TextModulePatchRequest:
+      type: object
+      properties: {}
+    TextModulePostPatchResponse:
+      type: object
+      properties: {}
+    TextModuleCategoryCollectionResponse:
+      type: object
+      properties: {}
+    TicketResponse:
+      type: object
+      properties: {}
+    TicketCollectionResponse:
+      type: object
+      properties: {}
+    TicketPostRequest:
+      type: object
+      properties: {}
+    TicketPatchRequest:
+      type: object
+      properties: {}
+    TicketPostPatchResponse:
+      type: object
+      properties: {}
+    TicketArticleResponse:
+      type: object
+      properties: {}
+    TicketArticleCollectionResponse:
+      type: object
+      properties: {}
+    TicketArticlePostRequest:
+      type: object
+      properties: {}
+    TicketArticlePatchRequest:
+      type: object
+      properties: {}
+    TicketArticlePostPatchResponse:
+      type: object
+      properties: {}
+    TicketArticleAttachmentResponse:
+      type: object
+      properties: {}
+    TicketArticleAttachmentCollectionResponse:
+      type: object
+      properties: {}
+    TicketArticleAttachmentPostRequest:
+      type: object
+      properties: {}
+    TicketArticleAttachmentPostResponse:
+      type: object
+      properties: {}
+    TicketArticleAttachmentZipResponse:
+      type: object
+      properties: {}
+    TicketArticleFlagResponse:
+      type: object
+      properties: {}
+    TicketArticleFlagCollectionResponse:
+      type: object
+      properties: {}
+    TicketArticleFlagPostRequest:
+      type: object
+      properties: {}
+    TicketArticleFlagPatchRequest:
+      type: object
+      properties: {}
+    TicketArticleFlagPostPatchResponse:
+      type: object
+      properties: {}
+    TicketHistoryResponse:
+      type: object
+      properties: {}
+    TicketHistoryCollectionResponse:
+      type: object
+      properties: {}
+    TicketStateResponse:
+      type: object
+      properties: {}
+    TicketStateCollectionResponse:
+      type: object
+      properties: {}
+    TicketStatePostRequest:
+      type: object
+      properties: {}
+    TicketStatePatchRequest:
+      type: object
+      properties: {}
+    TicketStatePostPatchResponse:
+      type: object
+      properties: {}
+    TicketTypeResponse:
+      type: object
+      properties: {}
+    TicketTypeCollectionResponse:
+      type: object
+      properties: {}
+    TicketTypePostRequest:
+      type: object
+      properties: {}
+    TicketTypePatchRequest:
+      type: object
+      properties: {}
+    TicketTypePostPatchResponse:
+      type: object
+      properties: {}
+    TranslationCollectionResponse:
+      type: object
+      properties: {}
+    TranslationLanguageResponse:
+      type: object
+      properties: {}
+    TranslationLanguageCollectionResponse:
+      type: object
+      properties: {}
+    TranslationLanguagePostRequest:
+      type: object
+      properties: {}
+    TranslationLanguagePatchRequest:
+      type: object
+      properties: {}
+    TranslationLanguagePostPatchResponse:
+      type: object
+      properties: {}
+    TranslationPatternResponse:
+      type: object
+      properties: {}
+    TranslationPatternCollectionResponse:
+      type: object
+      properties: {}
+    TranslationPatternPostRequest:
+      type: object
+      properties: {}
+    TranslationPatternPatchRequest:
+      type: object
+      properties: {}
+    TranslationPatternPostPatchResponse:
+      type: object
+      properties: {}
+    UserResponse:
+      type: object
+      properties: {}
+    UserCollectionResponse:
+      type: object
+      properties: {}
+    UserPostRequest:
+      type: object
+      properties: {}
+    UserPatchRequest:
+      type: object
+      properties: {}
+    UserPostPatchResponse:
+      type: object
+      properties: {}
+    UserPreferenceResponse:
+      type: object
+      properties: {}
+    UserPreferenceCollectionResponse:
+      type: object
+      properties: {}
+    UserPreferencePostRequest:
+      type: object
+      properties: {}
+    UserPreferencePatchRequest:
+      type: object
+      properties: {}
+    UserPreferencePostPatchResponse:
+      type: object
+      properties: {}
+    UserRoleIDCollectionResponse:
+      type: object
+      properties: {}
+    UserRoleIDPostRequest:
+      type: object
+      properties: {}
+    UserRoleIDPostResponse:
+      type: object
+      properties: {}
+    ValidResponse:
+      type: object
+      properties: {}
+    ValidCollectionResponse:
+      type: object
+      properties: {}
+    VirtualFSResponse:
+      type: object
+      properties: {}
+    WatcherCollectionResponse:
+      type: object
+      properties: {}
+    WatcherPostRequest:
+      type: object
+      properties: {}
+    WatcherPostResponse:
+      type: object
+      properties: {}
 info:
   description: Standard API documentation for the KIX-REST API.
   title: KIX-REST API
