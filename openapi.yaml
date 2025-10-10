@@ -8794,7 +8794,7 @@ paths:
       - Watchers
 servers:
 - description: The main production server.
-  url: https://{tenant}.kixdesk.com/kix-rest
+  url: https://{tenant}.demo.mykix.com/kix-rest
   variables:
     tenant:
       default: demo
