@@ -1964,10 +1964,45 @@ paths:
             active.
         '401':
           description: Not authenticated.
+        '201':
+          content:
+            application/json:
+              examples: &id001
+                default:
+                  value:
+                    Token: eyJhbGciOiJIUzI1NiJ9.eyJEZXNjcmlwdGlvbiI6IiIsIlVzZXJJRCI6IjEiLCJVc2VyVHlwZSI6IkFnZW50IiwiQWxsb3dlZE9wZXJhdGlvbnMiOltdLCJJZ25vcmVNYXhJZGxlVGltZSI6MCwiRGVuaWVkT3BlcmF0aW9ucyI6W10sIlJlbW90ZUlQIjoiOjpmZmZmOjE3Mi4xNy4wLjEiLCJUb2tlblR5cGUiOiJOb3JtYWwiLCJDcmVhdGVUaW1lVW5peCI6MTUzNTQ1NjA5NSwiVmFsaWRVbnRpbFRpbWVVbml4IjoxNTM1NTEzNjk1fQ.Ny0LWwELBS7c2K-784_9SpPBEz_HsgJ4s2xQTMSjCso
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+          description: No description provided.
       security: []
       summary: Get Authentication Info
       tags:
       - Session
+      parameters:
+      - name: UserType
+        in: query
+        description: UserType
+        required: false
+        schema:
+          type: string
+      - name: code
+        in: query
+        description: OIDC-Code
+        required: false
+        schema:
+          type: string
+      - name: state
+        in: query
+        description: OIDC-State
+        required: false
+        schema:
+          type: string
+      - name: csrfCookie
+        in: query
+        description: OIDC-CSRFToken
+        required: false
+        schema:
+          type: string
     post:
       description: Authenticates a user and creates a new session, returning an authentication
         token. This is the primary endpoint for logging in.
@@ -1987,14 +2022,9 @@ paths:
         '201':
           content:
             application/json:
-              example:
-                Token: ab...yz
               schema:
-                properties:
-                  Token:
-                    description: The authentication token for the session.
-                    type: string
-                type: object
+                $ref: '#/components/schemas/AuthResponse'
+              examples: *id001
           description: Session successfully created.
         '401':
           description: Invalid credentials.
@@ -2002,6 +2032,7 @@ paths:
       summary: Create a new session
       tags:
       - Session
+      parameters: []
   /clientregistrations:
     get:
       description: Retrieves a list of client registrations.
@@ -2009,11 +2040,61 @@ paths:
       responses:
         '200':
           description: A list of client registrations.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: &id002
+                default:
+                  value:
+                    Code: Object.DependingObjectExists
+                    Message: Cannot delete queue. A ticket with this queue already
+                      exists.
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for client registrations
       tags:
       - Client Registrations
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /clientregistrations/{ClientID}:
     get:
       description: Retrieves the details of a specific client registration.
@@ -2059,9 +2140,52 @@ paths:
           description: A list of configuration items.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for CMDB configuration items
       tags:
       - CMDB
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new configuration item.
       operationId: ConfigItemCreate
@@ -2079,13 +2203,28 @@ paths:
       responses:
         '201':
           description: The configuration item was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new configuration item
       tags:
       - CMDB
+      parameters: []
   /cmdb/configitems/{ConfigItemID}:
     delete:
       description: Deletes a specific configuration item.
@@ -2377,9 +2516,52 @@ paths:
           description: A list of contacts.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for contacts
       tags:
       - Contacts
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new contact.
       operationId: ContactCreate
@@ -2399,13 +2581,28 @@ paths:
       responses:
         '201':
           description: The contact was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new contact
       tags:
       - Contacts
+      parameters: []
   /contacts/{ContactID}:
     delete:
       description: Deletes a specific contact.
@@ -2557,9 +2754,52 @@ paths:
           description: A list of FAQ articles.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for FAQ articles
       tags:
       - FAQ
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new FAQ article.
       operationId: FAQArticleCreate
@@ -2579,13 +2819,28 @@ paths:
       responses:
         '201':
           description: The FAQ article was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new FAQ article
       tags:
       - FAQ
+      parameters: []
   /faq/articles/keywords:
     get:
       description: Retrieves a list of keywords from all FAQ articles.
@@ -2593,11 +2848,56 @@ paths:
       responses:
         '200':
           description: A list of keywords.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for FAQ article keywords
       tags:
       - FAQ
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /faq/articles/{FAQArticleID}:
     delete:
       description: Deletes a specific FAQ article.
@@ -2832,11 +3132,56 @@ paths:
       responses:
         '200':
           description: A list of translations.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for translations
       tags:
       - i18n
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /links:
     get:
       description: Retrieves a list of links.
@@ -2855,9 +3200,52 @@ paths:
           description: A list of links.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for links
       tags:
       - Links
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new link between objects.
       operationId: LinkCreate
@@ -2871,13 +3259,28 @@ paths:
       responses:
         '201':
           description: The link was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new link
       tags:
       - Links
+      parameters: []
   /links/types:
     get:
       description: Retrieves a list of possible link types.
@@ -2885,11 +3288,56 @@ paths:
       responses:
         '200':
           description: A list of link types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get link types
       tags:
       - Links
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /links/{LinkID}:
     delete:
       description: Deletes a specific link.
@@ -2975,9 +3423,52 @@ paths:
           description: A list of object tags.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for object tags
       tags:
       - Object Tags
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new object tag.
       operationId: ObjectTagCreate
@@ -2991,13 +3482,28 @@ paths:
       responses:
         '201':
           description: The object tag was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new object tag
       tags:
       - Object Tags
+      parameters: []
   /objecttags/taglinks:
     get:
       description: Retrieves a list of object tag links.
@@ -3005,11 +3511,49 @@ paths:
       responses:
         '200':
           description: A list of object tag links.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '204':
+          content:
+            application/json: {}
+          description: No description provided.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for object tag links
       tags:
       - Object Tags
+      parameters:
+      - name: fields
+        in: query
+        description: The list of fields to be returned in the response.
+        required: false
+        schema:
+          type: string
   /objecttags/{ObjectTagID}:
     delete:
       description: Deletes a specific object tag.
@@ -3079,9 +3623,52 @@ paths:
           description: A list of organisations.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for organisations
       tags:
       - Organisations
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new organisation.
       operationId: OrganisationCreate
@@ -3099,13 +3686,28 @@ paths:
       responses:
         '201':
           description: The organisation was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new organisation
       tags:
       - Organisations
+      parameters: []
   /organisations/{OrganisationID}:
     delete:
       description: Deletes a specific organisation.
@@ -3281,11 +3883,56 @@ paths:
       responses:
         '200':
           description: A list of data sources.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for reporting data sources
       tags:
       - Reporting
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /reporting/datasources/{DataSource}:
     get:
       description: Retrieves the details of a specific reporting data source.
@@ -3314,11 +3961,56 @@ paths:
       responses:
         '200':
           description: A list of output formats.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for reporting output formats
       tags:
       - Reporting
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /reporting/outputformats/{OutputFormat}:
     get:
       description: Retrieves the details of a specific reporting output format.
@@ -3358,9 +4050,52 @@ paths:
           description: A list of report definitions.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for report definitions
       tags:
       - Reporting
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new report definition.
       operationId: ReportDefinitionCreate
@@ -3374,13 +4109,28 @@ paths:
       responses:
         '201':
           description: The report definition was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new report definition
       tags:
       - Reporting
+      parameters: []
   /reporting/reportdefinitions/{ReportDefinitionID}:
     delete:
       description: Deletes a specific report definition.
@@ -3473,9 +4223,52 @@ paths:
           description: A list of reports.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for reports
       tags:
       - Reporting
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new report.
       operationId: ReportCreate
@@ -3489,13 +4282,28 @@ paths:
       responses:
         '201':
           description: The report was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new report
       tags:
       - Reporting
+      parameters: []
   /reporting/reports/{ReportID}:
     delete:
       description: Deletes a specific report.
@@ -3596,11 +4404,28 @@ paths:
       responses:
         '204':
           description: Session deleted successfully.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Delete current session (Logout)
       tags:
       - Session
+      parameters: []
     get:
       description: Retrieves detailed information about the current user's session.
       operationId: SessionGet
@@ -3620,9 +4445,45 @@ paths:
           description: Session information retrieved successfully.
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '204':
+          content:
+            application/json: {}
+          description: No description provided.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get current session information
       tags:
       - Session
+      parameters:
+      - name: fields
+        in: query
+        description: The list of fields to be returned in the response.
+        required: false
+        schema:
+          type: string
   /session/user:
     get:
       description: Retrieves the details of the currently authenticated user.
@@ -3630,24 +4491,92 @@ paths:
       responses:
         '200':
           description: User details.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '204':
+          content:
+            application/json: {}
+          description: No description provided.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get current session user
       tags:
       - Session
+      parameters:
+      - name: fields
+        in: query
+        description: The list of fields to be returned in the response.
+        required: false
+        schema:
+          type: string
     patch:
       description: Updates the details of the currently authenticated user.
       operationId: SessionUserUpdate
       responses:
         '200':
           description: The user was successfully updated.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '204':
+          content:
+            application/json: {}
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Update current session user
       tags:
       - Session
+      parameters: []
   /session/user/counters:
     get:
       description: Retrieves counters for the current user.
@@ -3655,11 +4584,49 @@ paths:
       responses:
         '200':
           description: A list of counters.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '204':
+          content:
+            application/json: {}
+          description: No description provided.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get user counters
       tags:
       - Session
+      parameters:
+      - name: fields
+        in: query
+        description: The list of fields to be returned in the response.
+        required: false
+        schema:
+          type: string
   /session/user/preferences:
     get:
       description: Retrieves the preferences for the current user.
@@ -3667,24 +4634,84 @@ paths:
       responses:
         '200':
           description: A list of preferences.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get user preferences
       tags:
       - Session
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new preference for the current user.
       operationId: SessionUserPreferenceCreate
       responses:
         '201':
           description: The preference was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a user preference
       tags:
       - Session
+      parameters: []
   /session/user/preferences/{UserPreferenceID}:
     get:
       description: Retrieves a specific preference for the current user.
@@ -3747,11 +4774,56 @@ paths:
       responses:
         '200':
           description: A list of tickets.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get user tickets
       tags:
       - Session
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/automation/execplans:
     get:
       description: Retrieves a list of execution plans.
@@ -3770,9 +4842,52 @@ paths:
           description: A list of execution plans.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for execution plans
       tags:
       - System - Automation
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new execution plan.
       operationId: ExecPlanCreate
@@ -3786,13 +4901,28 @@ paths:
       responses:
         '201':
           description: The execution plan was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new execution plan
       tags:
       - System - Automation
+      parameters: []
   /system/automation/execplans/types:
     get:
       description: Retrieves a list of execution plan types.
@@ -3800,11 +4930,56 @@ paths:
       responses:
         '200':
           description: A list of execution plan types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get execution plan types
       tags:
       - System - Automation
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/automation/execplans/types/{ExecPlanType}:
     get:
       description: Retrieves the details of a specific execution plan type.
@@ -3918,9 +5093,52 @@ paths:
           description: A list of automation jobs.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for automation jobs
       tags:
       - System - Automation
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new automation job.
       operationId: JobCreate
@@ -3934,13 +5152,28 @@ paths:
       responses:
         '201':
           description: The automation job was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new automation job
       tags:
       - System - Automation
+      parameters: []
   /system/automation/jobs/types:
     get:
       description: Retrieves a list of automation job types.
@@ -3948,11 +5181,56 @@ paths:
       responses:
         '200':
           description: A list of job types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get automation job types
       tags:
       - System - Automation
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/automation/jobs/{JobID}:
     delete:
       description: Deletes a specific automation job.
@@ -4260,9 +5538,52 @@ paths:
           description: A list of automation macros.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for automation macros
       tags:
       - System - Automation
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new automation macro.
       operationId: MacroCreate
@@ -4276,13 +5597,28 @@ paths:
       responses:
         '201':
           description: The automation macro was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new automation macro
       tags:
       - System - Automation
+      parameters: []
   /system/automation/macros/types:
     get:
       description: Retrieves a list of possible types for automation macros.
@@ -4290,11 +5626,56 @@ paths:
       responses:
         '200':
           description: A list of macro types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get macro types
       tags:
       - System - Automation
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/automation/macros/types/{MacroType}/actiontypes:
     get:
       description: Retrieves a list of action types for a specific macro type.
@@ -4533,9 +5914,52 @@ paths:
           description: A list of certificates.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for certificates
       tags:
       - System - Security
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new certificate.
       operationId: CertificateCreate
@@ -4549,13 +5973,28 @@ paths:
       responses:
         '201':
           description: The certificate was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new certificate
       tags:
       - System - Security
+      parameters: []
   /system/certificates/{CertificateID}:
     delete:
       description: Deletes a specific certificate.
@@ -4608,24 +6047,84 @@ paths:
       responses:
         '200':
           description: A list of CMDB classes.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for CMDB classes
       tags:
       - System - CMDB
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new CMDB class.
       operationId: ClassCreate
       responses:
         '201':
           description: The CMDB class was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new CMDB class
       tags:
       - System - CMDB
+      parameters: []
   /system/cmdb/classes/{ClassID}:
     get:
       description: Retrieves the details of a specific CMDB class.
@@ -4757,9 +6256,52 @@ paths:
           description: A list of channels.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for communication channels
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/communication/channels/{ChannelID}:
     get:
       description: Retrieves the details of a specific communication channel.
@@ -4803,9 +6345,52 @@ paths:
           description: A list of mail accounts.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for mail accounts
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new mail account.
       operationId: MailAccountCreate
@@ -4819,13 +6404,28 @@ paths:
       responses:
         '201':
           description: The mail account was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new mail account
       tags:
       - System - Communication
+      parameters: []
   /system/communication/mailaccounts/types:
     get:
       description: Retrieves a list of mail account types.
@@ -4833,11 +6433,56 @@ paths:
       responses:
         '200':
           description: A list of mail account types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get mail account types
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/communication/mailaccounts/{MailAccountID}:
     delete:
       description: Deletes a specific mail account.
@@ -4930,9 +6575,52 @@ paths:
           description: A list of mail filters.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for mail filters
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new mail filter.
       operationId: MailFilterCreate
@@ -4946,13 +6634,28 @@ paths:
       responses:
         '201':
           description: The mail filter was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new mail filter
       tags:
       - System - Communication
+      parameters: []
   /system/communication/mailfilters/{MailFilterID}:
     delete:
       description: Deletes a specific mail filter.
@@ -5045,9 +6748,52 @@ paths:
           description: A list of notifications.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for notifications
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new notification.
       operationId: NotificationCreate
@@ -5061,13 +6807,28 @@ paths:
       responses:
         '201':
           description: The notification was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new notification
       tags:
       - System - Communication
+      parameters: []
   /system/communication/notifications/{NotificationID}:
     delete:
       description: Deletes a specific notification.
@@ -5160,9 +6921,52 @@ paths:
           description: A list of sender types.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for sender types
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/communication/sendertypes/{SenderTypeID}:
     get:
       description: Retrieves the details of a specific sender type.
@@ -5206,9 +7010,52 @@ paths:
           description: A list of system addresses.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for system addresses
       tags:
       - System - Communication
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new system address.
       operationId: SystemAddressCreate
@@ -5222,13 +7069,28 @@ paths:
       responses:
         '201':
           description: The system address was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new system address
       tags:
       - System - Communication
+      parameters: []
   /system/communication/systemaddresses/{SystemAddressID}:
     delete:
       description: Deletes a specific system address.
@@ -5321,9 +7183,52 @@ paths:
           description: A list of configuration options.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for system configuration options
       tags:
       - System - Configuration
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/config/definitions:
     get:
       description: Retrieves a list of system configuration option definitions.
@@ -5342,9 +7247,52 @@ paths:
           description: A list of configuration option definitions.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for system configuration option definitions
       tags:
       - System - Configuration
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/config/definitions/{Option}:
     get:
       description: Retrieves a specific system configuration option definition.
@@ -5465,9 +7413,52 @@ paths:
           description: A list of console commands.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for console commands
       tags:
       - System - Console
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Executes a console command.
       operationId: ConsoleCommandExecute
@@ -5496,11 +7487,28 @@ paths:
           description: The command was successfully executed.
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Execute a console command
       tags:
       - System - Console
+      parameters: []
   /system/console/files:
     get:
       description: Retrieves a list of console files.
@@ -5508,24 +7516,84 @@ paths:
       responses:
         '200':
           description: A list of console files.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for console files
       tags:
       - System - Console
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new console file.
       operationId: ConsoleFileCreate
       responses:
         '201':
           description: The file was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new console file
       tags:
       - System - Console
+      parameters: []
   /system/console/files/{FileID}:
     delete:
       description: Deletes a specific console file.
@@ -5590,9 +7658,52 @@ paths:
           description: A list of dynamic fields.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for dynamic fields
       tags:
       - System - Dynamic Fields
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new dynamic field.
       operationId: DynamicFieldCreate
@@ -5606,13 +7717,28 @@ paths:
       responses:
         '201':
           description: The dynamic field was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new dynamic field
       tags:
       - System - Dynamic Fields
+      parameters: []
   /system/dynamicfields/objecttypes:
     get:
       description: Retrieves a list of possible object types for dynamic fields.
@@ -5620,11 +7746,56 @@ paths:
       responses:
         '200':
           description: A list of object types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get dynamic field object types
       tags:
       - System - Dynamic Fields
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/dynamicfields/types:
     get:
       description: Retrieves a list of possible data types for dynamic fields.
@@ -5632,11 +7803,56 @@ paths:
       responses:
         '200':
           description: A list of data types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get dynamic field types
       tags:
       - System - Dynamic Fields
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/dynamicfields/{DynamicFieldID}:
     delete:
       description: Deletes a specific dynamic field.
@@ -5761,24 +7977,84 @@ paths:
       responses:
         '200':
           description: A list of FAQ categories.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for FAQ categories
       tags:
       - System - FAQ
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new FAQ category.
       operationId: FAQCategoryCreate
       responses:
         '201':
           description: The FAQ category was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new FAQ category
       tags:
       - System - FAQ
+      parameters: []
   /system/faq/categories/{FAQCategoryID}:
     get:
       description: Retrieves the details of a specific FAQ category.
@@ -5840,9 +8116,52 @@ paths:
           description: A list of general catalog items.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for general catalog items
       tags:
       - System - General Catalog
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new general catalog item.
       operationId: GeneralCatalogItemCreate
@@ -5856,13 +8175,28 @@ paths:
       responses:
         '201':
           description: The general catalog item was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new general catalog item
       tags:
       - System - General Catalog
+      parameters: []
   /system/generalcatalog/classes:
     get:
       description: Retrieves a list of all general catalog classes.
@@ -5870,11 +8204,56 @@ paths:
       responses:
         '200':
           description: A list of general catalog classes.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get general catalog classes
       tags:
       - System - General Catalog
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/generalcatalog/{GeneralCatalogItemID}:
     delete:
       description: Deletes a specific general catalog item.
@@ -5956,13 +8335,49 @@ paths:
       responses:
         '200':
           description: The PDF document was successfully generated.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '204':
+          content:
+            application/json: {}
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Convert HTML to PDF
       tags:
       - System - Utilities
+      parameters:
+      - name: fields
+        in: query
+        description: The list of fields to be returned in the response.
+        required: false
+        schema:
+          type: string
   /system/i18n/translations:
     get:
       description: Retrieves a list of translation patterns.
@@ -5981,9 +8396,52 @@ paths:
           description: A list of translation patterns.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for translation patterns
       tags:
       - System - i18n
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new translation pattern.
       operationId: TranslationPatternCreate
@@ -5997,13 +8455,28 @@ paths:
       responses:
         '201':
           description: The translation pattern was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new translation pattern
       tags:
       - System - i18n
+      parameters: []
   /system/i18n/translations/{PatternID}:
     delete:
       description: Deletes a specific translation pattern.
@@ -6163,11 +8636,56 @@ paths:
       responses:
         '200':
           description: A list of templates.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for import/export templates
       tags:
       - System - Import/Export
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/importexport/templates/{TemplateID}:
     get:
       description: Retrieves the details of a specific import/export template.
@@ -6239,11 +8757,56 @@ paths:
       responses:
         '200':
           description: A list of log files.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for log files
       tags:
       - System - Logs
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/logs/{LogFileID}:
     get:
       description: Retrieves the contents of a specific log file.
@@ -6320,11 +8883,28 @@ paths:
           description: The authorization code was successfully processed.
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Process OAuth2 authorization code
       tags:
       - System - OAuth2
+      parameters: []
   /system/oauth2/profiles:
     get:
       description: Retrieves a list of OAuth2 profiles.
@@ -6332,24 +8912,84 @@ paths:
       responses:
         '200':
           description: A list of OAuth2 profiles.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for OAuth2 profiles
       tags:
       - System - OAuth2
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new OAuth2 profile.
       operationId: ProfileCreate
       responses:
         '201':
           description: The OAuth2 profile was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new OAuth2 profile
       tags:
       - System - OAuth2
+      parameters: []
   /system/oauth2/profiles/{ProfileID}:
     get:
       description: Retrieves the details of a specific OAuth2 profile.
@@ -6432,9 +9072,52 @@ paths:
           description: A list of object icons.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for object icons
       tags:
       - System - UI
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new object icon.
       operationId: ObjectIconCreate
@@ -6448,13 +9131,28 @@ paths:
       responses:
         '201':
           description: The object icon was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new object icon
       tags:
       - System - UI
+      parameters: []
   /system/objecticons/{ObjectIconID}:
     delete:
       description: Deletes a specific object icon.
@@ -6547,9 +9245,52 @@ paths:
           description: A list of plugins.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for plugins
       tags:
       - System - Plugins
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/plugins/{Product}:
     get:
       description: Retrieves the details of a specific plugin by its product name.
@@ -6628,9 +9369,52 @@ paths:
           description: A list of roles.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for roles
       tags:
       - System - Roles & Permissions
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new role.
       operationId: RoleCreate
@@ -6646,13 +9430,28 @@ paths:
       responses:
         '201':
           description: The role was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new role
       tags:
       - System - Roles & Permissions
+      parameters: []
   /system/roles/permissiontypes:
     get:
       description: Retrieves a list of permission types.
@@ -6660,11 +9459,56 @@ paths:
       responses:
         '200':
           description: A list of permission types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get permission types
       tags:
       - System - Roles & Permissions
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/roles/{RoleID}:
     delete:
       description: Deletes a specific role.
@@ -7052,9 +9896,52 @@ paths:
           description: A list of text modules.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for text modules
       tags:
       - System - Text Modules
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new text module.
       operationId: TextModuleCreate
@@ -7072,13 +9959,28 @@ paths:
       responses:
         '201':
           description: The text module was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new text module
       tags:
       - System - Text Modules
+      parameters: []
   /system/textmodules/categories:
     get:
       description: Retrieves a list of text module categories.
@@ -7086,11 +9988,56 @@ paths:
       responses:
         '200':
           description: A list of text module categories.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get text module categories
       tags:
       - System - Text Modules
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/textmodules/{TextModuleID}:
     delete:
       description: Deletes a specific text module.
@@ -7190,9 +10137,52 @@ paths:
           description: A list of locks.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for ticket locks
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/ticket/locks/{LockID}:
     get:
       description: Retrieves the details of a specific ticket lock.
@@ -7244,9 +10234,52 @@ paths:
           description: A list of priorities.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for ticket priorities
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new ticket priority.
       operationId: PriorityCreate
@@ -7262,13 +10295,28 @@ paths:
       responses:
         '201':
           description: The priority was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new ticket priority
       tags:
       - System - Ticket Settings
+      parameters: []
   /system/ticket/priorities/{PriorityID}:
     delete:
       description: Deletes a specific ticket priority.
@@ -7372,9 +10420,52 @@ paths:
           description: A list of queues.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for ticket queues
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new ticket queue.
       operationId: QueueCreate
@@ -7392,13 +10483,28 @@ paths:
       responses:
         '201':
           description: The queue was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new ticket queue
       tags:
       - System - Ticket Settings
+      parameters: []
   /system/ticket/queues/followuptypes:
     get:
       description: Retrieves a list of follow-up types for queues.
@@ -7406,11 +10512,56 @@ paths:
       responses:
         '200':
           description: A list of follow-up types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get queue follow-up types
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/ticket/queues/{QueueID}:
     delete:
       description: Deletes a specific ticket queue.
@@ -7518,9 +10669,52 @@ paths:
           description: A list of states.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for ticket states
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new ticket state.
       operationId: TicketStateCreate
@@ -7537,13 +10731,28 @@ paths:
       responses:
         '201':
           description: The state was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new ticket state
       tags:
       - System - Ticket Settings
+      parameters: []
   /system/ticket/states/types:
     get:
       description: Retrieves a list of ticket state types.
@@ -7551,11 +10760,56 @@ paths:
       responses:
         '200':
           description: A list of state types.
+          content:
+            application/json: {}
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Get ticket state types
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
   /system/ticket/states/types/{StateTypeID}:
     get:
       description: Retrieves the details of a specific ticket state type.
@@ -7681,9 +10935,52 @@ paths:
           description: A list of types.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for ticket types
       tags:
       - System - Ticket Settings
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new ticket type.
       operationId: TicketTypeCreate
@@ -7699,13 +10996,28 @@ paths:
       responses:
         '201':
           description: The type was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new ticket type
       tags:
       - System - Ticket Settings
+      parameters: []
   /system/ticket/types/{TypeID}:
     delete:
       description: Deletes a specific ticket type.
@@ -7811,9 +11123,52 @@ paths:
           description: A list of users.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for users
       tags:
       - System - Users
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new user.
       operationId: UserCreate
@@ -7833,13 +11188,28 @@ paths:
       responses:
         '201':
           description: The user was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new user
       tags:
       - System - Users
+      parameters: []
   /system/users/{UserID}:
     get:
       description: Retrieves the details of a specific user.
@@ -8199,6 +11569,30 @@ paths:
         name: DynamicField_Name
         schema:
           type: string
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           content:
@@ -8227,6 +11621,24 @@ paths:
           description: Unauthorized.
         '404':
           description: Not Found.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for tickets
       tags:
       - Tickets
@@ -8271,11 +11683,24 @@ paths:
           description: The ticket was successfully created.
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new ticket
       tags:
       - Tickets
+      parameters: []
   /tickets/{TicketID}:
     get:
       description: Retrieves the details of a specific ticket.
@@ -8724,9 +12149,52 @@ paths:
           description: A list of watchers.
         '401':
           description: Unauthorized.
+        '400':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
+        '201':
+          content:
+            application/json: {}
+          description: No description provided.
       summary: Search for watchers
       tags:
       - Watchers
+      parameters:
+      - name: filter
+        in: query
+        description: The filter to be used.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: The limit to be used to limit the number of items in the response.
+        required: false
+        schema:
+          type: number
+      - name: offset
+        in: query
+        description: The offset where the item list in the response will start.
+        required: false
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: The sort definition to be used to sort the items in the response.
+        required: false
+        schema:
+          type: string
     post:
       description: Creates a new watcher for an object.
       operationId: WatcherCreate
@@ -8740,13 +12208,28 @@ paths:
       responses:
         '201':
           description: The watcher was successfully created.
+          content:
+            application/json: {}
         '400':
           description: Bad Request.
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized.
+        '409':
+          content:
+            application/json:
+              examples: *id002
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: No description provided.
       summary: Create a new watcher
       tags:
       - Watchers
+      parameters: []
   /watchers/{WatcherID}:
     delete:
       description: Deletes a specific watcher.
